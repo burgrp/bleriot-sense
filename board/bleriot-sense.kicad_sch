@@ -2778,106 +2778,10 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Mechanical:MountingHole"
+		(symbol "Regulator_Linear:XC6206PxxxMR"
 			(pin_names
-				(offset 1.016)
+				(offset 0.254)
 			)
-			(exclude_from_sim no)
-			(in_bom no)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "H"
-				(at 0 5.08 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "MountingHole"
-				(at 0 3.175 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Mounting Hole without connection"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "mounting hole"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_fp_filters" "MountingHole*"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "MountingHole_0_1"
-				(circle
-					(center 0 0)
-					(radius 1.27)
-					(stroke
-						(width 1.27)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "Regulator_Linear:LM1117MP-3.3"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -2893,7 +2797,7 @@
 					)
 				)
 			)
-			(property "Value" "LM1117MP-3.3"
+			(property "Value" "XC6206PxxxMR"
 				(at 0 3.175 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -2904,7 +2808,19 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" "Package_TO_SOT_SMD:SOT-223-3_TabPin2"
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-3"
+				(at 0 5.715 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(italic yes)
+					)
+				)
+			)
+			(property "Datasheet" "https://www.torexsemi.com/file/xc6206/XC6206.pdf"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -2915,7 +2831,7 @@
 					)
 				)
 			)
-			(property "Datasheet" "http://www.ti.com/lit/ds/symlink/lm1117.pdf"
+			(property "Description" "Positive 60-250mA Low Dropout Regulator, Fixed Output, SOT-23"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -2926,7 +2842,7 @@
 					)
 				)
 			)
-			(property "Description" "800mA Low-Dropout Linear Regulator, 3.3V fixed output, SOT-223"
+			(property "ki_keywords" "Torex LDO Voltage Regulator Fixed Positive"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -2937,7 +2853,7 @@
 					)
 				)
 			)
-			(property "ki_keywords" "linear regulator ldo fixed positive"
+			(property "ki_fp_filters" "SOT?23?3*"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -2948,21 +2864,10 @@
 					)
 				)
 			)
-			(property "ki_fp_filters" "SOT?223*"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "LM1117MP-3.3_0_1"
+			(symbol "XC6206PxxxMR_0_1"
 				(rectangle
-					(start -5.08 -5.08)
-					(end 5.08 1.905)
+					(start -5.08 1.905)
+					(end 5.08 -5.08)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -2972,7 +2877,7 @@
 					)
 				)
 			)
-			(symbol "LM1117MP-3.3_1_1"
+			(symbol "XC6206PxxxMR_1_1"
 				(pin power_in line
 					(at 0 -7.62 90)
 					(length 2.54)
@@ -4086,16 +3991,6 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 156.21) (xy 64.77 156.21)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "89ff02c4-c76e-4b30-8496-1ef732b9356e")
-	)
-	(wire
-		(pts
 			(xy 124.46 119.38) (xy 143.51 119.38)
 		)
 		(stroke
@@ -4243,6 +4138,16 @@
 			(type default)
 		)
 		(uuid "f2d04b44-c8cf-4415-b700-f82b21663892")
+	)
+	(wire
+		(pts
+			(xy 59.69 156.21) (xy 64.77 156.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f352c11b-0b20-455a-9e14-253e7241a023")
 	)
 	(wire
 		(pts
@@ -4473,7 +4378,7 @@
 			(uuid "afab9a2a-498b-402c-93bd-05df650023b5")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR019")
 					(unit 1)
@@ -4551,7 +4456,7 @@
 			(uuid "bfbb05c3-eb1c-4344-9002-440ce76465ca")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR03")
 					(unit 1)
@@ -4630,7 +4535,7 @@
 			(uuid "85409ffe-e4af-4f38-856a-0a38d124fa1e")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "R2")
 					(unit 1)
@@ -4707,7 +4612,7 @@
 			(uuid "633df66e-70e5-4da9-93f1-3fb51af2f1f8")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR022")
 					(unit 1)
@@ -4841,7 +4746,7 @@
 			(uuid "86f10d73-b46b-43aa-a9a0-6fa464f8be11")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "U3")
 					(unit 1)
@@ -4918,7 +4823,7 @@
 			(uuid "b7672994-3c8b-4306-a35d-caad7cbf3800")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR028")
 					(unit 1)
@@ -4997,7 +4902,7 @@
 			(uuid "2b72ee9e-481f-497b-89fe-e4d26a29d310")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "AR1")
 					(unit 1)
@@ -5085,9 +4990,93 @@
 			(uuid "79eaa660-6bff-4823-84c3-413ddf2970ec")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "D2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Regulator_Linear:XC6206PxxxMR")
+		(at 52.07 156.21 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1c3b4ef9-a137-4822-a000-a538f606b161")
+		(property "Reference" "U1"
+			(at 52.07 149.86 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "XC6206P332MR"
+			(at 52.07 152.4 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-3"
+			(at 52.07 150.495 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.torexsemi.com/file/xc6206/XC6206.pdf"
+			(at 52.07 156.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Positive 60-250mA Low Dropout Regulator, Fixed Output, SOT-23"
+			(at 52.07 156.21 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "5a2bcefd-6d96-4cb1-9606-1f1dbee35021")
+		)
+		(pin "3"
+			(uuid "a1258dd4-e0a8-409f-bf40-b79d1ba76804")
+		)
+		(pin "1"
+			(uuid "b14f98b5-60b2-410b-86a0-c0130f6d30f8")
+		)
+		(instances
+			(project "bleriot-sense"
+				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
+					(reference "U1")
 					(unit 1)
 				)
 			)
@@ -5162,7 +5151,7 @@
 			(uuid "41f04341-dec5-4c11-9c68-47d3f6ecb074")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR010")
 					(unit 1)
@@ -5241,7 +5230,7 @@
 			(uuid "d1e76800-3dd3-4382-8d8a-d234e974c033")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR01")
 					(unit 1)
@@ -5320,7 +5309,7 @@
 			(uuid "3f540057-25cc-4562-b87a-c32fbbece6a9")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "AR2")
 					(unit 1)
@@ -5399,7 +5388,7 @@
 			(uuid "a64c2db3-8463-4e9b-a697-4e138606d1be")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR02")
 					(unit 1)
@@ -5476,7 +5465,7 @@
 			(uuid "3b0f8bd6-b829-423c-b7fa-1173e313e5da")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#FLG02")
 					(unit 1)
@@ -5553,7 +5542,7 @@
 			(uuid "bf1f0070-ea97-456d-af72-d2497cfff6b0")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR026")
 					(unit 1)
@@ -5630,7 +5619,7 @@
 			(uuid "eb58ae51-235a-4d1f-a655-244eea54f91c")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR04")
 					(unit 1)
@@ -5709,7 +5698,7 @@
 			(uuid "58771855-b98c-4262-a12b-93742c5a8309")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "R1")
 					(unit 1)
@@ -5790,7 +5779,7 @@
 			(uuid "5b2449ab-f8d6-4bcb-919a-12dc2b3d44bc")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "C4")
 					(unit 1)
@@ -5865,85 +5854,9 @@
 			(uuid "34f390b8-9de8-48cb-a7fc-cc18f0463d90")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR029")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Mechanical:MountingHole")
-		(at 214.63 139.7 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "595820d5-d9f8-47b9-ab79-dc8c24f76ad0")
-		(property "Reference" "H1"
-			(at 217.17 139.1055 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "MountingHole"
-			(at 217.17 140.8677 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "MountingHole:MountingHole_3.7mm_Pad_Via"
-			(at 214.63 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 214.63 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Mounting Hole without connection"
-			(at 214.63 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "bleriot-simsens"
-				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
-					(reference "H1")
 					(unit 1)
 				)
 			)
@@ -6018,92 +5931,9 @@
 			(uuid "2f86ba69-a861-4492-b8bf-0139ab26fda1")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR013")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Regulator_Linear:LM1117MP-3.3")
-		(at 52.07 156.21 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "60ef1a29-e364-42c3-88a2-ea001af1bbb4")
-		(property "Reference" "U1"
-			(at 52.07 149.86 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "LM1117MP-3.3"
-			(at 52.07 152.4 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-223-3_TabPin2"
-			(at 52.07 156.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/lm1117.pdf"
-			(at 52.07 156.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "800mA Low-Dropout Linear Regulator, 3.3V fixed output, SOT-223"
-			(at 52.07 156.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "3"
-			(uuid "a690d7eb-194b-4f93-8ddc-152846710d2a")
-		)
-		(pin "2"
-			(uuid "65f60009-d543-4f92-897a-b8d7bbeb38f8")
-		)
-		(pin "1"
-			(uuid "853b51ce-483f-4549-a747-d77411e2e6dc")
-		)
-		(instances
-			(project "bleriot-simsens"
-				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
-					(reference "U1")
 					(unit 1)
 				)
 			)
@@ -6179,7 +6009,7 @@
 			(uuid "19d7e6a3-0b6d-461a-b324-946a1a5b3a8f")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR012")
 					(unit 1)
@@ -6257,7 +6087,7 @@
 			(uuid "1b1acd3a-ce75-45bd-8e96-2cf27bce3ab2")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR021")
 					(unit 1)
@@ -6339,7 +6169,7 @@
 			(uuid "8590d902-6831-4078-94ea-2994bf76f84d")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "A1")
 					(unit 1)
@@ -6440,7 +6270,7 @@
 			(uuid "55023a7a-6b1f-41d2-9ec5-5d389de22245")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "U2")
 					(unit 1)
@@ -6521,7 +6351,7 @@
 			(uuid "9b4602d2-0d48-48e2-98ea-e8e7e6579caa")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "AC1")
 					(unit 1)
@@ -6602,7 +6432,7 @@
 			(uuid "1370d66c-62fe-4fa8-b22e-af36e6f1be79")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "C6")
 					(unit 1)
@@ -6683,7 +6513,7 @@
 			(uuid "72fe1e07-d013-4de5-8e50-266cd36aa963")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "C5")
 					(unit 1)
@@ -6766,7 +6596,7 @@
 			(uuid "3e7b6dc2-8d41-4fa8-8212-78f75e319906")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "J2")
 					(unit 1)
@@ -6845,7 +6675,7 @@
 			(uuid "8ba82948-3412-49fd-96ac-02149e7c7e7a")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR05")
 					(unit 1)
@@ -6926,7 +6756,7 @@
 			(uuid "b01366fd-69c3-4dc9-b85c-a32518bce4a2")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "C2")
 					(unit 1)
@@ -7016,7 +6846,7 @@
 			(uuid "a020a0c6-7f60-4d58-b61e-fd8e485468e8")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "D3")
 					(unit 1)
@@ -7095,7 +6925,7 @@
 			(uuid "8fe0329e-9b88-49e6-9e88-7fdff9433866")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "AR3")
 					(unit 1)
@@ -7125,7 +6955,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10u"
+		(property "Value" "1u"
 			(at 65.405 163.83 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7176,7 +7006,7 @@
 			(uuid "21e924a7-b5f1-43cc-a5b7-f0e9310a507e")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "C3")
 					(unit 1)
@@ -7253,7 +7083,7 @@
 			(uuid "db837c65-c265-4adf-987a-e0e0d6e49e3e")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR016")
 					(unit 1)
@@ -7334,7 +7164,7 @@
 			(uuid "f956d348-5e55-4939-abdc-a4e1b7d101e2")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "C7")
 					(unit 1)
@@ -7411,7 +7241,7 @@
 			(uuid "61d75ea0-9812-4a29-a461-8991ed3c9889")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR018")
 					(unit 1)
@@ -7441,7 +7271,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10u"
+		(property "Value" "1u"
 			(at 40.005 163.83 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7492,7 +7322,7 @@
 			(uuid "f5e3758e-1d0a-4372-b26d-4fff8506511a")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "C1")
 					(unit 1)
@@ -7570,7 +7400,7 @@
 			(uuid "134fda7b-aa7d-454b-b11e-c0935e92b345")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR017")
 					(unit 1)
@@ -7655,7 +7485,7 @@
 			(uuid "3e1b0948-c7f5-4520-81d1-b718002ca480")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "D1")
 					(unit 1)
@@ -7741,7 +7571,7 @@
 			(uuid "13a683ee-8039-4807-97a1-cb92e82cf43a")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "Y1")
 					(unit 1)
@@ -7818,7 +7648,7 @@
 			(uuid "10703abd-a776-4d8d-95d5-3c63c86679dc")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR011")
 					(unit 1)
@@ -7895,7 +7725,7 @@
 			(uuid "e73b15a7-6852-4096-a7cf-519a6bb2b8e3")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR024")
 					(unit 1)
@@ -7972,7 +7802,7 @@
 			(uuid "4a14c798-0962-4725-848a-16f275765075")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR025")
 					(unit 1)
@@ -8049,7 +7879,7 @@
 			(uuid "466acd88-5150-43bd-849c-38d7d4f60ba9")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR027")
 					(unit 1)
@@ -8126,7 +7956,7 @@
 			(uuid "e2c21e60-ae2f-448c-b581-d2b55865bbc9")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR09")
 					(unit 1)
@@ -8203,7 +8033,7 @@
 			(uuid "60695e7d-9d0a-4be9-a9b4-65b6db201e39")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR023")
 					(unit 1)
@@ -8280,7 +8110,7 @@
 			(uuid "d938b6c4-63b9-44e7-88c2-a3df1e6de40f")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR015")
 					(unit 1)
@@ -8360,7 +8190,7 @@
 			(uuid "326fdbb2-16df-49e1-9b8e-99d94b4acbde")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "J1")
 					(unit 1)
@@ -8437,7 +8267,7 @@
 			(uuid "85c861dd-44c8-49fb-a0d4-cdaf49a77d9a")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#FLG01")
 					(unit 1)
@@ -8516,7 +8346,7 @@
 			(uuid "bcce4176-0762-4a0c-a460-48e7ceda2f5d")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR07")
 					(unit 1)
@@ -8594,7 +8424,7 @@
 			(uuid "7dd85d54-ef12-4e44-bdf0-7f82e221b81c")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR06")
 					(unit 1)
@@ -8672,7 +8502,7 @@
 			(uuid "eb008daf-7384-42ae-bf47-981c22a1a0d5")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR020")
 					(unit 1)
@@ -8749,7 +8579,7 @@
 			(uuid "f48c9cff-af3f-4fa2-af9a-cc4c580612ab")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR014")
 					(unit 1)
@@ -8833,7 +8663,7 @@
 			(uuid "64f64fe6-11eb-4ef7-88ec-537fdba1a59f")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "X1")
 					(unit 1)
@@ -8911,7 +8741,7 @@
 			(uuid "4fb2e609-9013-4521-81df-f849e687c520")
 		)
 		(instances
-			(project "bleriot-simsens"
+			(project "bleriot-sense"
 				(path "/32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
 					(reference "#PWR08")
 					(unit 1)

@@ -60,7 +60,7 @@
     "ssh_key": ""
   },
   "meta": {
-    "filename": "bleriot-simsens.kicad_prl",
+    "filename": "bleriot-sense.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {

@@ -201,7 +201,7 @@
 		)
 		(path "/6e2f3bed-b2c8-4184-bdcb-280af07b414c")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -574,7 +574,7 @@
 		)
 		(path "/6a4942d3-f5f9-4a50-be8f-bf2f0844e7a4")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -844,7 +844,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/a7a75ce7-1d83-4ff4-b3bb-2c82a6c9f7c6")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -1002,7 +1002,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/5078edba-80cf-48b1-80d2-b0381741297d")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -1160,7 +1160,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/52f28c52-4bbc-4029-8703-03be2e98e832")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -1318,7 +1318,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/91a36fe1-92b1-41aa-bd7a-388c9a871b46")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -1599,6 +1599,388 @@
 			)
 		)
 	)
+	(footprint "Package_TO_SOT_SMD:SOT-23-3"
+		(layer "F.Cu")
+		(uuid "341739e3-178c-43ed-940e-e344ed7bddac")
+		(at 101.575 54.725)
+		(descr "SOT, 3 Pin (JEDEC MO-178 inferred 3-pin variant https://www.jedec.org/document_search?search_api_views_fulltext=MO-178)")
+		(tags "SOT TO_SOT_SMD")
+		(property "Reference" "U1"
+			(at 0 -2.4 0)
+			(layer "F.SilkS")
+			(uuid "80901c59-9f6e-4735-acd2-1f46b4766f8a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "XC6206P332MR"
+			(at 0 2.4 0)
+			(layer "F.Fab")
+			(uuid "4c836c1b-5491-498c-b84f-cf8dc1731e01")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.torexsemi.com/file/xc6206/XC6206.pdf"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f54132f9-4ad8-4029-96c9-b297ac6240f7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Positive 60-250mA Low Dropout Regulator, Fixed Output, SOT-23"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c918e815-e402-446c-b52c-1a073ab68ffb")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "KiLib_Generator" "package/gullwing"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "e48411b3-8a21-47ae-818e-cdccd3c3459a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property ki_fp_filters "SOT?23?3*")
+		(path "/1c3b4ef9-a137-4822-a000-a538f606b161")
+		(sheetname "/")
+		(sheetfile "bleriot-sense.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "3" "1" "2")
+			)
+		)
+		(attr smd)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_line
+			(start -0.91 -1.56)
+			(end 0.91 -1.56)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "8e2e393c-805a-4cdb-8833-76245f363c7b")
+		)
+		(fp_line
+			(start -0.91 -1.51)
+			(end -0.91 -1.56)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "9d42e5b2-1637-498b-b513-339db84afbcc")
+		)
+		(fp_line
+			(start -0.91 0.39)
+			(end -0.91 -0.39)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "0d935dac-9575-4579-840d-4e494bc4ade0")
+		)
+		(fp_line
+			(start -0.91 1.56)
+			(end -0.91 1.51)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "09a06322-870d-4108-895b-af86a44e9eb0")
+		)
+		(fp_line
+			(start 0.91 -1.56)
+			(end 0.91 -0.56)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "59e86d70-2142-4378-b581-a36c755f5b82")
+		)
+		(fp_line
+			(start 0.91 0.56)
+			(end 0.91 1.56)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "51419b47-68ab-4874-bdef-944cd507fc52")
+		)
+		(fp_line
+			(start 0.91 1.56)
+			(end -0.91 1.56)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "9c94d71e-4e35-464a-afbe-b14ede079d6e")
+		)
+		(fp_poly
+			(pts
+				(xy -1.45 -0.38) (xy -1.21 -0.05) (xy -1.69 -0.05)
+			)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(fill yes)
+			(layer "F.SilkS")
+			(uuid "b75e28b0-211a-47ef-bc9e-185ca0e9d392")
+		)
+		(fp_line
+			(start -2.05 -1.5)
+			(end -1.05 -1.5)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "5deec7c7-f444-4590-85a6-a5625508990a")
+		)
+		(fp_line
+			(start -2.05 -0.39)
+			(end -2.05 -1.5)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "1451c4a0-d923-47c7-be61-dcfb1df4fb09")
+		)
+		(fp_line
+			(start -2.05 0.39)
+			(end -1.05 0.39)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "58f29b3c-9f71-4e5e-ba42-09c4930b60c1")
+		)
+		(fp_line
+			(start -2.05 1.5)
+			(end -2.05 0.39)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "a1e012e3-90be-47e3-8357-4f788a363665")
+		)
+		(fp_line
+			(start -1.05 -1.7)
+			(end 1.05 -1.7)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "db1ee592-ed24-4b82-9706-8c2cdd645dbe")
+		)
+		(fp_line
+			(start -1.05 -1.5)
+			(end -1.05 -1.7)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "8b9d7187-c12a-4f4a-8579-afecd1e73381")
+		)
+		(fp_line
+			(start -1.05 -0.39)
+			(end -2.05 -0.39)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "4304742f-12a8-43bd-ac55-0ebdf5bd9886")
+		)
+		(fp_line
+			(start -1.05 0.39)
+			(end -1.05 -0.39)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "0495728f-895b-42e0-93aa-dc400beb041e")
+		)
+		(fp_line
+			(start -1.05 1.5)
+			(end -2.05 1.5)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "91524bb2-ce76-4811-871e-4ea9adfcd043")
+		)
+		(fp_line
+			(start -1.05 1.7)
+			(end -1.05 1.5)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "f4459a9e-6282-47f0-9577-d5b56c6c0bbd")
+		)
+		(fp_line
+			(start 1.05 -1.7)
+			(end 1.05 -0.55)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "26e19d53-c016-42d2-a4df-a1772010bfc3")
+		)
+		(fp_line
+			(start 1.05 -0.55)
+			(end 2.05 -0.55)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "ffdecddd-8366-4dcc-b0f3-265dfc448496")
+		)
+		(fp_line
+			(start 1.05 0.55)
+			(end 1.05 1.7)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "3c9ad5aa-7e59-4f93-9242-47a385ba0b87")
+		)
+		(fp_line
+			(start 1.05 1.7)
+			(end -1.05 1.7)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "a224af1f-2a91-43af-9d4b-d3cc5fd9aa03")
+		)
+		(fp_line
+			(start 2.05 -0.55)
+			(end 2.05 0.55)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "23485e20-80cc-4358-b472-a65c89cf4a4e")
+		)
+		(fp_line
+			(start 2.05 0.55)
+			(end 1.05 0.55)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "2befde24-52c4-4456-8b7c-fd70546120b6")
+		)
+		(fp_poly
+			(pts
+				(xy -0.4 -1.45) (xy 0.8 -1.45) (xy 0.8 1.45) (xy -0.8 1.45) (xy -0.8 -1.05)
+			)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.Fab")
+			(uuid "edb4c99f-9832-41ac-9a4d-5ef8d3d97852")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 90)
+			(layer "F.Fab")
+			(uuid "94af9c3c-1c95-46a8-a4a4-c8091b28cedc")
+			(effects
+				(font
+					(size 0.72 0.72)
+					(thickness 0.11)
+				)
+			)
+		)
+		(pad "1" smd roundrect
+			(at -1.1375 -0.95)
+			(size 1.325 0.6)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "GND")
+			(pinfunction "GND_1")
+			(pintype "power_in")
+			(uuid "e65f4088-44bd-4c13-bd8f-8fbf4ada6663")
+		)
+		(pad "2" smd roundrect
+			(at -1.1375 0.95)
+			(size 1.325 0.6)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "+3V3")
+			(pinfunction "VO_2")
+			(pintype "power_out")
+			(uuid "d76e582c-c34d-46a2-9ea8-059e8aec1884")
+		)
+		(pad "3" smd roundrect
+			(at 1.1375 0)
+			(size 1.325 0.6)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "+5V")
+			(pinfunction "VI_3")
+			(pintype "power_in")
+			(uuid "b2d32464-a6ab-4652-b440-92ee0300f6f3")
+		)
+		(embedded_fonts no)
+		(model "${KICAD10_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SOT-23-3.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+	)
 	(footprint "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm"
 		(layer "F.Cu")
 		(uuid "36e32613-1d16-470c-9f4a-f845d6a07a59")
@@ -1656,7 +2038,7 @@
 		(property ki_fp_filters "LED*WS2812*PLCC*5.0x5.0mm*P3.2mm*")
 		(path "/16e35e4c-407a-44f9-8176-3c9ee54a79ab")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -1976,7 +2358,7 @@
 		)
 		(path "/0c7ad565-a736-4820-a9ce-b281fbb31ef8")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -2440,7 +2822,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/7c2fc0b1-5432-4ebf-b124-8aafc6ef6d26")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -2598,7 +2980,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/15e24c1e-855c-4da7-9caa-80903fc58c40")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -2741,7 +3123,7 @@
 		)
 		(path "/f95f1c4f-0ecb-4d1d-9a10-fcbc56f1f04b")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -2835,278 +3217,6 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "Package_TO_SOT_SMD:SOT-223-3_TabPin2"
-		(layer "F.Cu")
-		(uuid "79a74730-8863-4f62-b773-39975291a778")
-		(at 101.785 54.29)
-		(descr "module CMS SOT223 4 pins")
-		(tags "CMS SOT")
-		(property "Reference" "U1"
-			(at 0 -4.5 0)
-			(layer "F.SilkS")
-			(uuid "7fd2cb87-7a19-4914-a80e-d9e8e7a4cf38")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Value" "LM1117MP-3.3"
-			(at 0 4.5 0)
-			(layer "F.Fab")
-			(uuid "ed6c340e-a2e1-44de-acd7-7e59f7447a35")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/lm1117.pdf"
-			(at 0 0 0)
-			(unlocked yes)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "940e5e04-e9d2-4d28-8e9d-dda2fcb030d3")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Description" "800mA Low-Dropout Linear Regulator, 3.3V fixed output, SOT-223"
-			(at 0 0 0)
-			(unlocked yes)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "94f3a199-6bd3-410e-8ded-2cb7ae1677cf")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property ki_fp_filters "SOT?223*")
-		(path "/60ef1a29-e364-42c3-88a2-ea001af1bbb4")
-		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
-		(units
-			(unit
-				(name "A")
-				(pins "3" "1" "2")
-			)
-		)
-		(attr smd)
-		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start -1.85 -3.41)
-			(end 1.91 -3.41)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "aab967d6-60f1-4df1-87c8-a43522e7264b")
-		)
-		(fp_line
-			(start -1.85 3.41)
-			(end 1.91 3.41)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "da09b0e0-f7c4-4481-9b49-5b8742af21b4")
-		)
-		(fp_line
-			(start 1.91 -3.41)
-			(end 1.91 -2.15)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "ac7ccdd1-899a-481b-8d45-79a96c90c1d8")
-		)
-		(fp_line
-			(start 1.91 3.41)
-			(end 1.91 2.15)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "1f5f3452-62d0-4d1f-b8b1-e551d9879e0f")
-		)
-		(fp_poly
-			(pts
-				(xy -3.13 -3.31) (xy -3.37 -3.64) (xy -2.89 -3.64) (xy -3.13 -3.31)
-			)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(fill yes)
-			(layer "F.SilkS")
-			(uuid "d153d804-d4a2-42f0-acb6-303b5601502d")
-		)
-		(fp_line
-			(start -4.4 -3.6)
-			(end -4.4 3.6)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "3a997776-a881-46ed-8df1-bb7ce7fb6183")
-		)
-		(fp_line
-			(start -4.4 3.6)
-			(end 4.4 3.6)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "b073232e-de6a-4a5b-b939-0e6eaaf36bdd")
-		)
-		(fp_line
-			(start 4.4 -3.6)
-			(end -4.4 -3.6)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "069a780d-548b-4e27-8e58-4afe12cc7bf7")
-		)
-		(fp_line
-			(start 4.4 3.6)
-			(end 4.4 -3.6)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "0d151a57-3274-4e8f-b55d-50b8c928266e")
-		)
-		(fp_line
-			(start -1.85 -2.35)
-			(end -1.85 3.35)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "b0676f1c-0777-4c13-b1fd-5c929f3cf57b")
-		)
-		(fp_line
-			(start -1.85 -2.35)
-			(end -0.85 -3.35)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "f856f24b-4ba3-4179-9e64-b4ab4273422f")
-		)
-		(fp_line
-			(start -1.85 3.35)
-			(end 1.85 3.35)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "48a5d52e-79e7-43b1-983e-07657293c038")
-		)
-		(fp_line
-			(start -0.85 -3.35)
-			(end 1.85 -3.35)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "c904045e-70a4-4a3f-b546-dafdaba7c522")
-		)
-		(fp_line
-			(start 1.85 -3.35)
-			(end 1.85 3.35)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "5fddd83d-fcca-48fd-9f80-eee6e89d402b")
-		)
-		(fp_text user "${REFERENCE}"
-			(at 0 0 90)
-			(layer "F.Fab")
-			(uuid "b8b63f07-13ad-4e10-94ab-bf1c132b8d9d")
-			(effects
-				(font
-					(size 0.8 0.8)
-					(thickness 0.12)
-				)
-			)
-		)
-		(pad "1" smd roundrect
-			(at -3.15 -2.3)
-			(size 2 1.5)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net "GND")
-			(pinfunction "GND_1")
-			(pintype "power_in")
-			(uuid "39cfda9b-c92a-4e65-953f-af26db51473c")
-		)
-		(pad "2" smd roundrect
-			(at -3.15 0)
-			(size 2 1.5)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net "+3V3")
-			(pinfunction "VO_2")
-			(pintype "power_out")
-			(uuid "7bfed4d4-15d1-4887-b309-3cc810110eda")
-		)
-		(pad "2" smd roundrect
-			(at 3.15 0)
-			(size 2 3.8)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net "+3V3")
-			(pinfunction "VO_2")
-			(pintype "power_out")
-			(uuid "6211e353-17cb-4530-b1b7-4e428a6ffc00")
-		)
-		(pad "3" smd roundrect
-			(at -3.15 2.3)
-			(size 2 1.5)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.25)
-			(net "+5V")
-			(pinfunction "VI_3")
-			(pintype "power_in")
-			(uuid "86c5ed66-ea52-4b45-84f1-a8011ff31221")
-		)
-		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SOT-223.step"
-			(offset
-				(xyz 0 0 0)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
-		)
-	)
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "7a551c56-1bca-4c0b-a8d7-763bc975f33a")
@@ -3124,7 +3234,7 @@
 				)
 			)
 		)
-		(property "Value" "10u"
+		(property "Value" "1u"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "4ca64da2-ae13-410f-bfc1-b93b45d68941")
@@ -3172,7 +3282,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/af32d59c-284c-4d28-85e7-95e8f4099776")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -3343,7 +3453,7 @@
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/a388713a-7d5a-49e9-b451-1bcacf5cf643")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -3552,7 +3662,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/347c5e4b-13a4-4493-b2c6-404d0778bafd")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -3645,195 +3755,6 @@
 			)
 		)
 	)
-	(footprint "MountingHole:MountingHole_3.7mm_Pad_Via"
-		(layer "F.Cu")
-		(uuid "ae94ea80-f53c-4113-88e8-081baf64c257")
-		(at 62.265 38.315)
-		(descr "Mounting Hole 3.7mm, generated by kicad-footprint-generator mountinghole.py")
-		(tags "mountinghole")
-		(property "Reference" "H1"
-			(at 0 -4.65 0)
-			(layer "F.SilkS")
-			(uuid "ddb9c848-b9ef-4f9e-abdb-790afc292714")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Value" "MountingHole"
-			(at 0 4.65 0)
-			(layer "F.Fab")
-			(uuid "2994bf05-07c5-4dd1-9260-a01c655f1e88")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "d1ea2956-1939-44e4-b826-68d64aba3af3")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Mounting Hole without connection"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "d19b5b80-83d3-4258-8b1f-65c49c49be3b")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KiLib_Generator" "mounting_hardware/mounting_hole"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "81e5e6e8-e62d-4957-ad08-3197b4f6c98f")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property ki_fp_filters "MountingHole*")
-		(path "/595820d5-d9f8-47b9-ab79-dc8c24f76ad0")
-		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
-		(units
-			(unit
-				(name "A")
-				(pins)
-			)
-		)
-		(duplicate_pad_numbers_are_jumpers no)
-		(fp_circle
-			(center 0 0)
-			(end 3.7 0)
-			(stroke
-				(width 0.15)
-				(type solid)
-			)
-			(fill no)
-			(layer "Cmts.User")
-			(uuid "9a76f52a-98d7-43dc-8cf4-72430fa2b893")
-		)
-		(fp_circle
-			(center 0 0)
-			(end 3.95 0)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.CrtYd")
-			(uuid "1e8d52e8-6704-4271-855c-3393771c5263")
-		)
-		(fp_text user "${REFERENCE}"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(uuid "5b326df2-27df-4c1c-a638-796e8c89989e")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(pad "1" thru_hole circle
-			(at -2.775 0)
-			(size 0.8 0.8)
-			(drill 0.5)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(zone_connect 2)
-			(uuid "305c8bf1-a3dc-4b7b-96e4-74446af73201")
-		)
-		(pad "1" thru_hole circle
-			(at -1.962221 -1.962221)
-			(size 0.8 0.8)
-			(drill 0.5)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(zone_connect 2)
-			(uuid "9b846885-4c9b-4185-be3a-012278ce1284")
-		)
-		(pad "1" thru_hole circle
-			(at -1.962221 1.962221)
-			(size 0.8 0.8)
-			(drill 0.5)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(zone_connect 2)
-			(uuid "df13af51-1c9d-4fe1-829c-caa4a8b160cc")
-		)
-		(pad "1" thru_hole circle
-			(at 0 -2.775)
-			(size 0.8 0.8)
-			(drill 0.5)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(zone_connect 2)
-			(uuid "b9c1c72e-0e62-42eb-86ea-80b104715270")
-		)
-		(pad "1" thru_hole circle
-			(at 0 0)
-			(size 7.4 7.4)
-			(drill 3.7)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(zone_connect 2)
-			(uuid "14bf1da3-1e2a-422f-aad4-d1ee36e4e1f1")
-		)
-		(pad "1" thru_hole circle
-			(at 0 2.775)
-			(size 0.8 0.8)
-			(drill 0.5)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(zone_connect 2)
-			(uuid "e149588f-1c02-4636-874a-b4ca889fa5ee")
-		)
-		(pad "1" thru_hole circle
-			(at 1.962221 -1.962221)
-			(size 0.8 0.8)
-			(drill 0.5)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(zone_connect 2)
-			(uuid "6abd0f79-cfde-41ea-97ba-6078dca48c24")
-		)
-		(pad "1" thru_hole circle
-			(at 1.962221 1.962221)
-			(size 0.8 0.8)
-			(drill 0.5)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(zone_connect 2)
-			(uuid "a4957831-2954-4451-9549-f0afce837f16")
-		)
-		(pad "1" thru_hole circle
-			(at 2.775 0)
-			(size 0.8 0.8)
-			(drill 0.5)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(zone_connect 2)
-			(uuid "d00a5374-d3e6-4308-916f-29f153ee4f47")
-		)
-		(embedded_fonts no)
-	)
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "b08f816c-dbae-4d74-a7dc-2b56323ade48")
@@ -3899,7 +3820,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/7c160783-b50b-4c67-84ea-21e442262d29")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -4057,7 +3978,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/dbbc420b-7cd1-4f69-a28d-ef5540e93ec2")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -4352,7 +4273,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/081b81dd-de95-499c-b65d-70c27b0b902e")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -4510,7 +4431,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/ab8b4453-1e90-4301-b1d7-da1d38f23f95")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -4668,7 +4589,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/8cff517d-2d0e-4005-b6dc-61628276611d")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -4826,7 +4747,7 @@
 		(property ki_fp_filters "SOT?23*")
 		(path "/b044f15f-2a6e-4251-b77b-a288d09825c2")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -5207,7 +5128,7 @@
 		(property ki_fp_filters "Crystal*")
 		(path "/baa5f5de-0337-4901-b1bc-65b4bb710c7b")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -5340,7 +5261,7 @@
 				)
 			)
 		)
-		(property "Value" "10u"
+		(property "Value" "1u"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "a153bd05-aa0b-4c63-9f0f-36da7b1e6f8d")
@@ -5388,7 +5309,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/a92b207e-07eb-4c09-b7ab-03295ac2b8a9")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -5546,7 +5467,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/9c8a43a8-f0b7-4cac-abea-faa80bfb6f24")
 		(sheetname "/")
-		(sheetfile "bleriot-simsens.kicad_sch")
+		(sheetfile "bleriot-sense.kicad_sch")
 		(units
 			(unit
 				(name "A")

@@ -539,7 +539,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "bleriot-simsens.kicad_pro",
+    "filename": "bleriot-sense.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -695,18 +695,18 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "bleriot-simsens.kicad_sch",
-        "name": "vertical",
+        "filename": "bleriot-sense.kicad_sch",
+        "name": "sense",
         "uuid": "32f9e9f8-9d15-4d51-acc1-705de5fd2b71"
       }
     ],
-    "used_designators": "#FLG1-2,U1-3,U5-6,R1-7,J1-4,X1-2,H1,AR1-3,AC1,D1-4,C1-13,A1-2,Y1-2,#PWR1-36",
+    "used_designators": "#FLG1-2,U1-6,R1-7,J1-4,X1-2,H1,AR1-3,AC1,D1-4,C1-13,A1-2,Y1-2,#PWR1-36",
     "variants": []
   },
   "sheets": [
     [
       "32f9e9f8-9d15-4d51-acc1-705de5fd2b71",
-      "vertical"
+      "sense"
     ]
   ],
   "text_variables": {},
