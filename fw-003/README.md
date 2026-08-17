@@ -1,6 +1,8 @@
 # BleRiot Sense firmware
 
-This module is the BleRiot node and hub inventory for the SSOP board variant:
+This module is the BleRiot node and hub inventory for the `board-003` hardware
+variant. The sibling `board-030` project uses a PY32F030 and requires separate
+firmware.
 
 - MCU: `PY32F003L16S6TU` (32 KiB flash, 4 KiB RAM).
 - TinyGo target: `./py32f003x6-sense.json`; pyOCD target: `py32f003x6`.

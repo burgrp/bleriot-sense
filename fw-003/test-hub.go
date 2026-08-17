@@ -3,7 +3,7 @@
 package main
 
 import (
-	"github.com/burgrp/bleriot-sense/fw/spec"
+	"github.com/burgrp/bleriot-sense/fw-003/spec"
 	"github.com/burgrp/bleriot/lib/shared/config"
 	"github.com/burgrp/bleriot/lib/shared/inventory"
 	"github.com/burgrp/bleriot/lib/site/cli"
