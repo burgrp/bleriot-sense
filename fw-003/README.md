@@ -4,6 +4,12 @@ This module is the BleRiot node and hub inventory for the `board-003` hardware
 variant. The sibling `board-030` project uses a PY32F030 and requires separate
 firmware.
 
+External hubs import the versioned device specification as:
+
+```go
+import sense "github.com/burgrp/bleriot-sense/fw-003/v2/spec"
+```
+
 - MCU: `PY32F003L16S6TU` (32 KiB flash, 4 KiB RAM).
 - TinyGo target: `./py32f003x6-sense.json`; pyOCD target: `py32f003x6`.
 - Sensor input: `PA0`.
@@ -13,14 +19,19 @@ firmware.
 
 ## Sensor mode
 
-Set `sensorConfig.Mode` in `test-hub.go` to match the assembled input network:
+Set `sensorMode` in `test-hub.go` to match the assembled input network. The
+device type needs only that mode; timing and averaging remain inline in the
+firmware configuration:
 
 ```go
-sensorConfig = spec.Config{
-	Mode:                       spec.ModeNTC,
+const sensorMode = spec.ModeNTC
+
+Type: spec.Type(sensorMode),
+Config: spec.Config{
+	Mode:                       sensorMode,
 	SampleIntervalMilliseconds: 1000,
 	ADCSamples:                 16,
-}
+},
 ```
 
 Supported values are:
@@ -57,7 +68,7 @@ go run . hub --registry http://localhost:8080 --diagnostics rf
 ```
 
 The build command generates the ignored `main_gen.go` containing the node's RF
-identity and `sensorConfig`.
+identity and baked `spec.Config`.
 
 The board-specific TinyGo target inherits `py32f003x6` but reserves a 1 KiB
 system stack. The stock 512-byte linker stack overflows while handling radio

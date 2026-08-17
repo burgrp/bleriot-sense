@@ -52,13 +52,13 @@ var Chip = inventory.Chip{
 	CmsisPack:    "PY32F003",
 }
 
-func Type(config Config) inventory.DeviceType {
+func Type(mode Mode) inventory.DeviceType {
 	deviceType := inventory.DeviceType{
-		Name: "bleriot-sense-" + config.Mode.String(),
+		Name: "bleriot-sense-" + mode.String(),
 		Chip: Chip,
 	}
 
-	switch config.Mode {
+	switch mode {
 	case ModeNTC:
 		deviceType.Registers = []inventory.Register{
 			{
@@ -109,7 +109,7 @@ func Type(config Config) inventory.DeviceType {
 			},
 		}
 	default:
-		panic(fmt.Sprintf("bleriot-sense: unsupported sensor mode %d", config.Mode))
+		panic(fmt.Sprintf("bleriot-sense: unsupported sensor mode %d", mode))
 	}
 
 	return deviceType

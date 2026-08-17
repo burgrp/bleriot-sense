@@ -71,7 +71,7 @@ kicad board-003/bleriot-sense.kicad_pro
 kicad board-030/bleriot-sense.kicad_pro
 ```
 
-Configure `sensorConfig.Mode` in
+Configure `sensorMode` in
 [`fw-003/test-hub.go`](fw-003/test-hub.go), then test and build the F003
 firmware:
 

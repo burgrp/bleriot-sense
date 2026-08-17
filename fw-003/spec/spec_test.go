@@ -5,7 +5,7 @@ import "testing"
 func TestTypesValidate(t *testing.T) {
 	for _, mode := range []Mode{ModeNTC, ModeFlow, ModePressure} {
 		t.Run(mode.String(), func(t *testing.T) {
-			if err := Type(Config{Mode: mode}).Validate(); err != nil {
+			if err := Type(mode).Validate(); err != nil {
 				t.Fatal(err)
 			}
 		})
@@ -13,7 +13,7 @@ func TestTypesValidate(t *testing.T) {
 }
 
 func TestPressureConversion(t *testing.T) {
-	value, err := Type(Config{Mode: ModePressure}).Registers[0].Conversion.Decode(3831)
+	value, err := Type(ModePressure).Registers[0].Conversion.Decode(3831)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -24,7 +24,7 @@ func TestPressureConversion(t *testing.T) {
 }
 
 func TestFlowConversion(t *testing.T) {
-	value, err := Type(Config{Mode: ModeFlow}).Registers[0].Conversion.Decode(1000)
+	value, err := Type(ModeFlow).Registers[0].Conversion.Decode(1000)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -34,7 +34,7 @@ func TestFlowConversion(t *testing.T) {
 }
 
 func TestNTCConversion(t *testing.T) {
-	value, err := Type(Config{Mode: ModeNTC}).Registers[0].Conversion.Decode(2048)
+	value, err := Type(ModeNTC).Registers[0].Conversion.Decode(2048)
 	if err != nil {
 		t.Fatal(err)
 	}
