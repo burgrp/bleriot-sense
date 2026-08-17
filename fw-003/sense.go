@@ -11,7 +11,7 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/burgrp/bleriot-sense/fw-003/v2/spec"
+	"github.com/burgrp/bleriot-sense/fw-003/spec"
 	"github.com/burgrp/bleriot/lib/node"
 	"github.com/burgrp/bleriot/lib/node/pan211x"
 )

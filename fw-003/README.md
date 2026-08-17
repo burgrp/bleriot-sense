@@ -7,7 +7,7 @@ firmware.
 External hubs import the versioned device specification as:
 
 ```go
-import sense "github.com/burgrp/bleriot-sense/fw-003/v2/spec"
+import sense "github.com/burgrp/bleriot-sense/fw-003/spec"
 ```
 
 - MCU: `PY32F003L16S6TU` (32 KiB flash, 4 KiB RAM).
