@@ -1711,18 +1711,8 @@
 			(on_board yes)
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "U"
-				(at 12.7 8.89 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "PAN2110Z0AA"
-				(at 12.7 -8.89 0)
+			(property "Reference" "U2"
+				(at 2.1433 12.7 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -1732,7 +1722,18 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-8"
+			(property "Value" "PAN2110P0AA"
+				(at 2.1433 10.16 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Drake:PAN211x_SOT23-8_P0.8mm"
 				(at 12.7 -10.668 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -6211,7 +6212,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-8"
+		(property "Footprint" "Drake:PAN211x_SOT23-8_P0.8mm"
 			(at 97.79 72.898 0)
 			(hide yes)
 			(show_name no)

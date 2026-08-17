@@ -590,7 +590,8 @@
   "libraries": {
     "pinned_footprint_libs": [],
     "pinned_symbol_libs": [
-      "Drake"
+      "Drake",
+      "Artery_MCU"
     ]
   },
   "meta": {
