@@ -1,0 +1,5 @@
+image.elf
+size-report.html
+disassembly.txt
+main_gen.go
+main_gen.go.tmp

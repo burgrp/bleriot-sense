@@ -1,0 +1,6 @@
+{
+    "inherits": [
+        "py32f003x6"
+    ],
+    "linkerscript": "py32f003x6-sense.ld"
+}
