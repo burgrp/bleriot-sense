@@ -28,6 +28,7 @@ func main() {
 				Mode:                       sensorMode,
 				SampleIntervalMilliseconds: 1000,
 				ADCSamples:                 16,
+				SampleHysteresis:           4,
 			},
 		},
 	})

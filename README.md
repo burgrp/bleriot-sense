@@ -52,9 +52,10 @@ hardware through the ADC, PAN2110 radio, MCP2210 hub dongle, BleRiot hub,
 conversion layer, and Registry. Flow and pressure support build and have
 host-side conversion coverage but still require mode-specific hardware tests.
 
-The F003 firmware uses a board-specific TinyGo target with a 1 KiB system stack
-and no task scheduler. See the firmware README for pin assignments, first-boot
-option-byte handling, configuration, and memory constraints.
+The upstream TinyGo `py32f003x6` target provides the required 1 KiB system
+stack. The firmware runs without a task scheduler. See the firmware README for
+pin assignments, first-boot option-byte handling, configuration, and memory
+constraints.
 
 ## Getting started
 

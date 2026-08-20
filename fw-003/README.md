@@ -11,7 +11,7 @@ import sense "github.com/burgrp/bleriot-sense/fw-003/spec"
 ```
 
 - MCU: `PY32F003L16S6TU` (32 KiB flash, 4 KiB RAM).
-- TinyGo target: `./py32f003x6-sense.json`; pyOCD target: `py32f003x6`.
+- TinyGo and pyOCD target: `py32f003x6`.
 - Sensor input: `PA0`.
 - PAN2110 SCK: `PA1`.
 - PAN2110 DATA: `PA2`.
@@ -31,6 +31,7 @@ Config: spec.Config{
 	Mode:                       sensorMode,
 	SampleIntervalMilliseconds: 1000,
 	ADCSamples:                 16,
+	SampleHysteresis:           4,
 },
 ```
 
@@ -51,6 +52,19 @@ NTC and pressure calculations run in the hub; the node transmits averaged raw
 hertz by the hub. A sensor-specific pressure transfer function or flow K-factor
 can be added to the host conversion once the exact sensor calibration is known.
 
+`SampleHysteresis` reduces RF traffic by comparing each sample with the last
+notified sample. A notification is sent only when the absolute difference is at
+least the configured threshold. `0` and `1` preserve notification on every raw
+change. The threshold uses node wire units: ADC counts in NTC and pressure
+modes, and millihertz in flow mode. The example value of four ADC counts is
+approximately 0.09 °C near 25 °C for the specified thermistor. GET responses
+retain the latest full-resolution sample.
+
+In flow mode, the pulse interrupt only increments an in-memory counter. The
+cumulative `pulses` register is sampled and can notify at most once per sample
+interval while pulses are arriving; it does not send one notification per
+physical pulse. `SampleHysteresis` applies to `frequency`, not to `pulses`.
+
 ## Build and run
 
 From this directory:
@@ -70,10 +84,9 @@ go run . hub --registry http://localhost:8080 --diagnostics rf
 The build command generates the ignored `main_gen.go` containing the node's RF
 identity and baked `spec.Config`.
 
-The board-specific TinyGo target inherits `py32f003x6` but reserves a 1 KiB
-system stack. The stock 512-byte linker stack overflows while handling radio
-traffic. Firmware uses `--scheduler none`; sensor acquisition shares the
-nonblocking node loop so no heap-backed goroutine stacks are required.
+The upstream TinyGo `py32f003x6` target reserves a 1 KiB system stack. Firmware
+uses `--scheduler none`; sensor acquisition shares the nonblocking node loop so
+no heap-backed goroutine stacks are required.
 
 ## First boot
 

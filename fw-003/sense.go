@@ -83,7 +83,7 @@ func bleriotMain(provisioning node.Provisioning, config spec.Config) {
 		}
 
 		sample, sampleNull := device.Read(spec.RegSample)
-		if sample != lastSample || sampleNull != lastSampleNull {
+		if sampleChanged(lastSample, lastSampleNull, sample, sampleNull, config.SampleHysteresis) {
 			lastSample, lastSampleNull = sample, sampleNull
 			bleNode.Notify(spec.RegSample, sample, sampleNull)
 		}

@@ -6,6 +6,7 @@ import (
 	"github.com/burgrp/bleriot/lib/shared/conversion"
 	"github.com/burgrp/bleriot/lib/shared/conversion/ntc"
 	"github.com/burgrp/bleriot/lib/shared/inventory"
+	"github.com/burgrp/bleriot/lib/shared/puya"
 )
 
 type Mode uint8
@@ -33,6 +34,7 @@ type Config struct {
 	Mode                       Mode
 	SampleIntervalMilliseconds uint32
 	ADCSamples                 uint8
+	SampleHysteresis           uint32
 }
 
 const (
@@ -45,12 +47,7 @@ const (
 	pressureDividerLowerKOhm = 6.49
 )
 
-var Chip = inventory.Chip{
-	Name:         "py32f003x6-sense",
-	TinygoTarget: "./py32f003x6-sense.json",
-	PyocdTarget:  "py32f003x6",
-	CmsisPack:    "PY32F003",
-}
+var Chip = puya.PY32F003x6
 
 func Type(mode Mode) inventory.DeviceType {
 	deviceType := inventory.DeviceType{
