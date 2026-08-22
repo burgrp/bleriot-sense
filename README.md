@@ -4,15 +4,15 @@ BleRiot Sense is a compact single-sensor BleRiot node built around a
 `PY32F003L16S6TU` microcontroller and a PAN2110 long-range 2.4 GHz radio. Its
 sensor input is configured at assembly time for one of three uses:
 
-![BleRiot Sense board front render](board.png)
-![BleRiot Sense board back with sensor-mode assembly table](board-back.png)
-
 - A 10 kΩ B3950 NTC thermistor.
 - A pulse-output flow sensor such as the YF-B10.
 - A pressure sensor with a driven 0.5-5 V analog output.
 
 The assembly population and the firmware mode must agree. The hardware does not
 switch sensor modes electronically at runtime.
+
+![BleRiot Sense board front render](board.png)
+![BleRiot Sense board back with sensor-mode assembly table](board-back.png)
 
 ## Repository layout
 

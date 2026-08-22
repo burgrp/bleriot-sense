@@ -3707,23 +3707,25 @@
 		(dnp no)
 		(uuid "15e24c1e-855c-4da7-9caa-80903fc58c40")
 		(property "Reference" "AR1"
-			(at 128.27 103.124 0)
+			(at 126.238 103.124 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
-		(property "Value" "10k 0.1%"
-			(at 131.572 105.41 0)
+		(property "Value" "10k"
+			(at 126.238 105.156 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
@@ -4026,23 +4028,25 @@
 		(dnp no)
 		(uuid "347c5e4b-13a4-4493-b2c6-404d0778bafd")
 		(property "Reference" "AR2"
-			(at 128.27 113.284 0)
+			(at 126.492 113.03 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
-		(property "Value" "4.02k 0.1%"
-			(at 131.572 115.57 0)
+		(property "Value" "4.02k"
+			(at 126.492 115.57 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
@@ -5192,7 +5196,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_Phoenix_MSTB:PhoenixContact_MSTBA_2,5_3-G_1x03_P5.00mm_Horizontal"
+		(property "Footprint" "Connector_Phoenix_MC:PhoenixContact_MC_1,5_3-G-3.5_1x03_P3.50mm_Horizontal"
 			(at 35.56 114.3 0)
 			(hide yes)
 			(show_name no)
@@ -5415,23 +5419,25 @@
 		(dnp no)
 		(uuid "a7a75ce7-1d83-4ff4-b3bb-2c82a6c9f7c6")
 		(property "Reference" "AR3"
-			(at 128.27 123.444 0)
+			(at 126.492 123.444 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
-		(property "Value" "6.49k 0.1%"
-			(at 131.572 125.73 0)
+		(property "Value" "6.49k"
+			(at 126.492 125.73 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
@@ -6545,7 +6551,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_Phoenix_MSTB:PhoenixContact_MSTBA_2,5_2-G_1x02_P5.00mm_Horizontal"
+		(property "Footprint" "Connector_Phoenix_MC:PhoenixContact_MC_1,5_2-G-3.5_1x02_P3.50mm_Horizontal"
 			(at 35.56 135.89 0)
 			(hide yes)
 			(show_name no)
