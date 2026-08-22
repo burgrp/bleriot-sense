@@ -1,4 +1,4 @@
-module github.com/burgrp/bleriot-sense/fw-003
+module github.com/burgrp/bleriot-sense/fw
 
 go 1.25.2
 

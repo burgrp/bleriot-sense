@@ -1,11 +1,10 @@
 # BleRiot Sense
 
-BleRiot Sense is a compact single-sensor BleRiot node built around a Puya
-PY32 microcontroller and a PAN2110 long-range 2.4 GHz radio. Its sensor input is
-configured at assembly time for one of three uses:
+BleRiot Sense is a compact single-sensor BleRiot node built around a
+`PY32F003L16S6TU` microcontroller and a PAN2110 long-range 2.4 GHz radio. Its
+sensor input is configured at assembly time for one of three uses:
 
-![BleRiot Sense board-003 front render](board-003.png)
-![BleRiot Sense board-030 front render](board-030.png)
+![BleRiot Sense board front render](board.png)
 ![BleRiot Sense board back with sensor-mode assembly table](board-back.png)
 
 - A 10 kΩ B3950 NTC thermistor.
@@ -19,14 +18,10 @@ switch sensor modes electronically at runtime.
 
 | Path | Description |
 |---|---|
-| [`board-003/bleriot-sense.kicad_pro`](board-003/bleriot-sense.kicad_pro) | Eight-pin `PY32F003L16S6TU` hardware supported by `fw-003` |
-| [`board-030/bleriot-sense.kicad_pro`](board-030/bleriot-sense.kicad_pro) | Larger `PY32F030F1xPx` hardware variant |
-| [`fw-003/`](fw-003/README.md) | BleRiot node firmware and hub inventory for `board-003` |
+| [`board/bleriot-sense.kicad_pro`](board/bleriot-sense.kicad_pro) | `PY32F003L16S6TU` hardware |
+| [`fw/`](fw/README.md) | BleRiot node firmware and hub inventory |
 | [`ANALOG-INPUT.md`](ANALOG-INPUT.md) | Analog input circuit, populations, calculations, protection, and layout |
 | [`sub/hw-kicad/`](sub/hw-kicad) | Shared KiCad symbols and footprints, included as a Git submodule |
-
-`board-030` does not currently have a matching firmware module in this
-repository.
 
 ## Sensor modes
 
@@ -46,7 +41,7 @@ assuming undocumented sensor calibration constants.
 
 ## Firmware status
 
-[`fw-003`](fw-003/README.md) targets the `PY32F003L16S6TU` and uses `PA0` for
+[`fw`](fw/README.md) targets the `PY32F003L16S6TU` and uses `PA0` for
 the universal sensor input. The NTC path has been verified end to end on
 hardware through the ADC, PAN2110 radio, MCP2210 hub dongle, BleRiot hub,
 conversion layer, and Registry. Flow and pressure support build and have
@@ -65,32 +60,30 @@ Initialize the shared KiCad library after cloning:
 git submodule update --init --recursive
 ```
 
-Open one of the hardware projects in KiCad:
+Open the hardware project in KiCad:
 
 ```sh
-kicad board-003/bleriot-sense.kicad_pro
-kicad board-030/bleriot-sense.kicad_pro
+kicad board/bleriot-sense.kicad_pro
 ```
 
 Configure `sensorMode` in
-[`fw-003/test-hub.go`](fw-003/test-hub.go), then test and build the F003
-firmware:
+[`fw/test-hub.go`](fw/test-hub.go), then test and build the firmware:
 
 ```sh
-go -C fw-003 test ./...
-go -C fw-003 run . make sense build
+go -C fw test ./...
+go -C fw run . make sense build
 ```
 
 Flash with a supported SWD probe:
 
 ```sh
-go -C fw-003 run . make sense flash
+go -C fw run . make sense flash
 ```
 
 With a Registry server running, start the hub in a separate terminal:
 
 ```sh
-go -C fw-003 run . hub --registry http://localhost:8080 --diagnostics rf
+go -C fw run . hub --registry http://localhost:8080 --diagnostics rf
 ```
 
 For an NTC-configured node, read live temperatures:

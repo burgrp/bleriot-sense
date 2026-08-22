@@ -1,13 +1,12 @@
 # BleRiot Sense firmware
 
-This module is the BleRiot node and hub inventory for the `board-003` hardware
-variant. The sibling `board-030` project uses a PY32F030 and requires separate
-firmware.
+This module is the BleRiot node firmware and hub inventory for the
+`PY32F003L16S6TU` hardware in `board`.
 
 External hubs import the versioned device specification as:
 
 ```go
-import sense "github.com/burgrp/bleriot-sense/fw-003/spec"
+import sense "github.com/burgrp/bleriot-sense/fw/spec"
 ```
 
 - MCU: `PY32F003L16S6TU` (32 KiB flash, 4 KiB RAM).
