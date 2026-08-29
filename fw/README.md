@@ -30,7 +30,6 @@ Config: spec.Config{
 	Mode:                       sensorMode,
 	SampleIntervalMilliseconds: 1000,
 	ADCSamples:                 16,
-	SampleHysteresis:           4,
 },
 ```
 
@@ -51,18 +50,9 @@ NTC and pressure calculations run in the hub; the node transmits averaged raw
 hertz by the hub. A sensor-specific pressure transfer function or flow K-factor
 can be added to the host conversion once the exact sensor calibration is known.
 
-`SampleHysteresis` reduces RF traffic by comparing each sample with the last
-notified sample. A notification is sent only when the absolute difference is at
-least the configured threshold. `0` and `1` preserve notification on every raw
-change. The threshold uses node wire units: ADC counts in NTC and pressure
-modes, and millihertz in flow mode. The example value of four ADC counts is
-approximately 0.09 °C near 25 °C for the specified thermistor. GET responses
-retain the latest full-resolution sample.
-
-In flow mode, the pulse interrupt only increments an in-memory counter. The
-cumulative `pulses` register is sampled and can notify at most once per sample
-interval while pulses are arriving; it does not send one notification per
-physical pulse. `SampleHysteresis` applies to `frequency`, not to `pulses`.
+The node retains the latest full-resolution sample for scheduled GET responses.
+In flow mode, the pulse interrupt only increments an in-memory counter; each
+sample interval updates both the frequency and cumulative `pulses` register.
 
 ## Build and run
 

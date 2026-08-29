@@ -66,8 +66,6 @@ func bleriotMain(provisioning node.Provisioning, config spec.Config) {
 		halt("failed to start BleRiot node: " + err.Error())
 	}
 
-	lastSample, lastSampleNull := device.Read(spec.RegSample)
-	lastPulses, lastPulsesNull := device.Read(spec.RegPulseCount)
 	intervalNanoseconds := int64(config.SampleIntervalMilliseconds) * int64(time.Millisecond)
 	nextSample := monotonicNanoseconds() + intervalNanoseconds
 	for {
@@ -79,20 +77,6 @@ func bleriotMain(provisioning node.Provisioning, config spec.Config) {
 			nextSample += intervalNanoseconds
 			if now >= nextSample {
 				nextSample = now + intervalNanoseconds
-			}
-		}
-
-		sample, sampleNull := device.Read(spec.RegSample)
-		if sampleChanged(lastSample, lastSampleNull, sample, sampleNull, config.SampleHysteresis) {
-			lastSample, lastSampleNull = sample, sampleNull
-			bleNode.Notify(spec.RegSample, sample, sampleNull)
-		}
-
-		if config.Mode == spec.ModeFlow {
-			pulses, pulsesNull := device.Read(spec.RegPulseCount)
-			if pulses != lastPulses || pulsesNull != lastPulsesNull {
-				lastPulses, lastPulsesNull = pulses, pulsesNull
-				bleNode.Notify(spec.RegPulseCount, pulses, pulsesNull)
 			}
 		}
 	}

@@ -34,7 +34,6 @@ type Config struct {
 	Mode                       Mode
 	SampleIntervalMilliseconds uint32
 	ADCSamples                 uint8
-	SampleHysteresis           uint32
 }
 
 const (
