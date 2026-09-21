@@ -41,6 +41,8 @@ const (
 	RegPulseCount = 2
 
 	adcMax                   = 4095
+	ntcFaultLowThreshold     = int32(64)
+	ntcFaultHighThreshold    = int32(adcMax) - ntcFaultLowThreshold
 	adcReferenceVoltage      = 3.3
 	pressureDividerTopKOhm   = 4.02
 	pressureDividerLowerKOhm = 6.49
@@ -58,19 +60,12 @@ func Type(mode Mode) inventory.DeviceType {
 	case ModeNTC:
 		deviceType.Registers = []inventory.Register{
 			{
-				Tag:      RegSample,
-				Name:     "temperature",
-				Type:     inventory.TypeFloat,
-				ReadOnly: true,
-				Conversion: ntc.Beta(ntc.BetaParams{
-					ADCMax:              adcMax,
-					FixedResistance:     10000,
-					NominalResistance:   10000,
-					NominalTemperatureC: 25,
-					Beta:                3950,
-					Position:            ntc.ThermistorLowSide,
-				}),
-				Metadata: map[string]string{"mode": "ntc", "unit": "degC"},
+				Tag:        RegSample,
+				Name:       "temperature",
+				Type:       inventory.TypeFloat,
+				ReadOnly:   true,
+				Conversion: ntcTemperatureConversion(),
+				Metadata:   map[string]string{"mode": "ntc", "unit": "degC"},
 			},
 		}
 	case ModeFlow:
@@ -114,5 +109,24 @@ func Type(mode Mode) inventory.DeviceType {
 func readOnlyScale(factor float64) inventory.Conversion {
 	result := conversion.Scale(factor)
 	result.Encode = nil
+	return result
+}
+
+func ntcTemperatureConversion() inventory.Conversion {
+	result := ntc.Beta(ntc.BetaParams{
+		ADCMax:              adcMax,
+		FixedResistance:     10000,
+		NominalResistance:   10000,
+		NominalTemperatureC: 25,
+		Beta:                3950,
+		Position:            ntc.ThermistorLowSide,
+	})
+	decode := result.Decode
+	result.Decode = func(raw int32) (any, error) {
+		if raw <= ntcFaultLowThreshold || raw >= ntcFaultHighThreshold {
+			return nil, nil
+		}
+		return decode(raw)
+	}
 	return result
 }

@@ -54,6 +54,12 @@ The node retains the latest full-resolution sample for scheduled GET responses.
 In flow mode, the pulse interrupt only increments an in-memory counter; each
 sample interval updates both the frequency and cumulative `pulses` register.
 
+In NTC mode, the hub conversion publishes `temperature = null` for raw ADC
+codes at or below 64 (shorted probe or cable) and at or above 4031
+(disconnected probe or cable). The node continues to report averaged raw ADC
+codes. These thresholds leave ample margin around the documented −20…100 °C
+range. Pressure mode does not apply the NTC wiring-fault thresholds.
+
 ## Build and run
 
 From this directory:

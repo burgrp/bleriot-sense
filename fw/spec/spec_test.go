@@ -43,3 +43,25 @@ func TestNTCConversion(t *testing.T) {
 		t.Fatalf("NTC conversion = %v degC, want about 25 degC", temperature)
 	}
 }
+
+func TestNTCFaultConversion(t *testing.T) {
+	decode := Type(ModeNTC).Registers[0].Conversion.Decode
+	for _, raw := range []int32{0, ntcFaultLowThreshold, ntcFaultHighThreshold, adcMax} {
+		value, err := decode(raw)
+		if err != nil {
+			t.Fatalf("Decode(%d): %v", raw, err)
+		}
+		if value != nil {
+			t.Errorf("Decode(%d) = %v, want nil", raw, value)
+		}
+	}
+	for _, raw := range []int32{ntcFaultLowThreshold + 1, ntcFaultHighThreshold - 1} {
+		value, err := decode(raw)
+		if err != nil {
+			t.Fatalf("Decode(%d): %v", raw, err)
+		}
+		if value == nil {
+			t.Errorf("Decode(%d) = nil, want temperature", raw)
+		}
+	}
+}

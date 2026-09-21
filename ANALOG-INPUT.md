@@ -274,7 +274,10 @@ Firmware should treat readings near either ADC rail as possible faults:
 - Near 0 V: shorted thermistor/cable or temperature above the intended range.
 - Near 3.3 V: open thermistor/cable or temperature below the intended range.
 
-Set thresholds with sufficient margin for the supported operating-temperature range and all component tolerances.
+The hub conversion reports the temperature register as null for averaged
+12-bit ADC codes at or below 64 and at or above 4031. The node still reports
+the raw ADC value. These thresholds are well outside the nominal −20…100 °C
+range while leaving margin for ADC and component tolerances.
 
 ## Input protection
 
