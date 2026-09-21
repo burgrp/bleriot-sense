@@ -2,6 +2,7 @@ package spec
 
 import (
 	"fmt"
+	"math"
 
 	"github.com/burgrp/bleriot/lib/shared/conversion"
 	"github.com/burgrp/bleriot/lib/shared/conversion/ntc"
@@ -126,7 +127,12 @@ func ntcTemperatureConversion() inventory.Conversion {
 		if raw <= ntcFaultLowThreshold || raw >= ntcFaultHighThreshold {
 			return nil, nil
 		}
-		return decode(raw)
+		value, err := decode(raw)
+		if err != nil {
+			return nil, err
+		}
+		temperature := value.(float64)
+		return math.Round(temperature*100) / 100, nil
 	}
 	return result
 }

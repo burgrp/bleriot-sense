@@ -39,8 +39,8 @@ func TestNTCConversion(t *testing.T) {
 		t.Fatal(err)
 	}
 	temperature := value.(float64)
-	if temperature < 24.9 || temperature > 25.1 {
-		t.Fatalf("NTC conversion = %v degC, want about 25 degC", temperature)
+	if temperature != 24.99 {
+		t.Fatalf("NTC conversion = %v degC, want 24.99 degC", temperature)
 	}
 }
 
