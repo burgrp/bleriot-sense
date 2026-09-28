@@ -1,44 +1,19 @@
-# The BleRiot host command generates main_gen.go and injects the chip targets
-# before re-entering this Makefile. Bare make invocations bounce through it.
-ifndef BLERIOT_MAKE
-
-$(or $(MAKECMDGOALS),build): __bleriot_bounce
-	@:
-.PHONY: __bleriot_bounce $(MAKECMDGOALS)
-__bleriot_bounce:
-	@go run . make $(MAKECMDGOALS)
-
-else
-
-IMAGE = image.elf
-
 .PHONY: build flash gdb rtt install-pack disassembly new hub
 
 build:
-	tinygo build --size html --serial rtt --scheduler none -print-allocs=. --gc leaking --target ${TARGET_TINYGO} -o ${IMAGE} .
+	go run ./cmd/dev node build --name sense
 
-flash: build
-	pkill pyocd || true
-	sleep 1
-	pyocd load -t ${TARGET_PYOCD} ${IMAGE}
-	pyocd rtt -t ${TARGET_PYOCD}
+flash:
+	go run ./cmd/dev node build --name sense --flash --rtt
 
-gdb:
-	pyocd gdb --target ${TARGET_PYOCD} --semihosting --persist
+disassembly:
+	go run ./cmd/dev node build --name sense --disassembly
 
-rtt:
-	pyocd rtt -t ${TARGET_PYOCD}
-
-install-pack:
-	pyocd pack install ${CMSIS_PACK}
-
-disassembly: build
-	arm-none-eabi-objdump -dS ${IMAGE} > disassembly.txt
+gdb rtt install-pack:
+	go run ./cmd/dev node $@ --name sense
 
 new:
-	go run . new
+	go run ./cmd/dev node new
 
 hub:
-	go run . hub --diagnostics rf
-
-endif
+	go run ./cmd/dev hub --diagnostics rf

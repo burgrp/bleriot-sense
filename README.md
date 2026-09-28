@@ -19,7 +19,8 @@ switch sensor modes electronically at runtime.
 | Path | Description |
 |---|---|
 | [`board/bleriot-sense.kicad_pro`](board/bleriot-sense.kicad_pro) | `PY32F003L16S6TU` hardware |
-| [`fw/`](fw/README.md) | BleRiot node firmware and hub inventory |
+| [`fw/`](fw/README.md) | Importable Sense firmware and board-owned build profile |
+| [`fw/cmd/dev/`](fw/cmd/dev/) | Local inventory and BleRiot CLI |
 | [`ANALOG-INPUT.md`](ANALOG-INPUT.md) | Analog input circuit, populations, calculations, protection, and layout |
 | [`sub/hw-kicad/`](sub/hw-kicad) | Shared KiCad symbols and footprints, included as a Git submodule |
 
@@ -67,23 +68,23 @@ kicad board/bleriot-sense.kicad_pro
 ```
 
 Configure `sensorMode` in
-[`fw/test-hub.go`](fw/test-hub.go), then test and build the firmware:
+[`fw/cmd/dev/main.go`](fw/cmd/dev/main.go), then test and build the firmware:
 
 ```sh
 go -C fw test ./...
-go -C fw run . make sense build
+go -C fw run ./cmd/dev node build --name sense
 ```
 
 Flash with a supported SWD probe:
 
 ```sh
-go -C fw run . make sense flash
+go -C fw run ./cmd/dev node build --name sense --flash --rtt
 ```
 
 With a Registry server running, start the hub in a separate terminal:
 
 ```sh
-go -C fw run . hub --registry http://localhost:8080 --diagnostics rf
+go -C fw run ./cmd/dev hub --registry http://localhost:8080 --diagnostics rf
 ```
 
 For an NTC-configured node, read live temperatures:

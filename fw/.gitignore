@@ -3,3 +3,5 @@ size-report.html
 disassembly.txt
 main_gen.go
 main_gen.go.tmp
+__pycache__
+.bleriot/

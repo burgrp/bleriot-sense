@@ -1,5 +1,4 @@
-//go:build !tinygo
-
+// Command dev is the local Sense inventory and BleRiot CLI.
 package main
 
 import (
@@ -9,9 +8,7 @@ import (
 	"github.com/burgrp/bleriot/lib/site/cli"
 )
 
-var (
-	far = inventory.Channel{Name: "far", Number: 37, SpreadFactor: config.SpreadFactorS8}
-)
+var far = inventory.Channel{Name: "far", Number: 37, SpreadFactor: config.SpreadFactorS8}
 
 func main() {
 	// Mode must match the AR1/AR2/AR3/AC1 assembly population.

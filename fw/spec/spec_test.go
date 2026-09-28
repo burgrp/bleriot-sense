@@ -1,6 +1,10 @@
 package spec
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/burgrp/bleriot/lib/shared/firmware"
+)
 
 func TestTypesValidate(t *testing.T) {
 	for _, mode := range []Mode{ModeNTC, ModeFlow, ModePressure} {
@@ -9,6 +13,21 @@ func TestTypesValidate(t *testing.T) {
 				t.Fatal(err)
 			}
 		})
+	}
+}
+
+func TestFirmwareProfile(t *testing.T) {
+	for _, mode := range []Mode{ModeNTC, ModeFlow, ModePressure} {
+		profile := Type(mode).Firmware
+		if profile.Package != "github.com/burgrp/bleriot-sense/fw" {
+			t.Fatalf("%s firmware package = %q", mode, profile.Package)
+		}
+		if profile.TinyGo.Scheduler != firmware.SchedulerNone || profile.TinyGo.StackSizeBytes != 1024 {
+			t.Fatalf("%s TinyGo profile = %+v", mode, profile.TinyGo)
+		}
+		if !profile.PyOCD.Reclaim || profile.PyOCD.ReclaimDelayMilliseconds != 1000 {
+			t.Fatalf("%s pyOCD profile = %+v", mode, profile.PyOCD)
+		}
 	}
 }
 

@@ -1,6 +1,6 @@
 //go:build tinygo
 
-package main
+package sense
 
 import (
 	"device/py32"
@@ -45,7 +45,8 @@ type Device struct {
 	ready          bool
 }
 
-func bleriotMain(provisioning node.Provisioning, config spec.Config) {
+// Run starts the Sense firmware with baked provisioning and configuration.
+func Run(provisioning node.Provisioning, config spec.Config) {
 	ensureCsnPinIsGPIO()
 	config = normalizeConfig(config)
 

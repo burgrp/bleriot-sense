@@ -1,6 +1,6 @@
 # BleRiot Sense firmware
 
-This module is the BleRiot node firmware and hub inventory for the
+This module is the importable BleRiot Sense firmware and local inventory for the
 `PY32F003L16S6TU` hardware in `board`.
 
 External hubs import the versioned device specification as:
@@ -18,7 +18,7 @@ import sense "github.com/burgrp/bleriot-sense/fw/spec"
 
 ## Sensor mode
 
-Set `sensorMode` in `test-hub.go` to match the assembled input network. The
+Set `sensorMode` in `cmd/dev/main.go` to match the assembled input network. The
 device type needs only that mode; timing and averaging remain inline in the
 firmware configuration:
 
@@ -41,7 +41,7 @@ Supported values are:
 | `spec.ModeFlow` | Driven: AR1 DNP, AR2 4.02 kΩ, AR3 6.49 kΩ, AC1 DNP; open collector: AR1 10 kΩ, AR2 4.02 kΩ, AR3/AC1 DNP | `frequency` in Hz and cumulative `pulses` |
 | `spec.ModePressure` | AR1 DNP, AR2 4.02 kΩ, AR3 6.49 kΩ, AC1 100 nF | Sensor-output `voltage` in V |
 
-The mode is inventory-as-code and is baked into the image by `bleriot make`. It
+The mode is inventory-as-code and is baked into the image by `node build`. It
 does not electronically change the assembly population at runtime. Rebuild and
 flash the node after changing it.
 
@@ -66,18 +66,20 @@ From this directory:
 
 ```sh
 go test ./...
-go run . make sense build
-go run . make sense flash
+go run ./cmd/dev node gen --name sense
+go run ./cmd/dev node build --name sense --disassembly
+go run ./cmd/dev node build --name sense --flash --rtt
 ```
 
 Run the hub against a Registry server with:
 
 ```sh
-go run . hub --registry http://localhost:8080 --diagnostics rf
+go run ./cmd/dev hub --registry http://localhost:8080 --diagnostics rf
 ```
 
-The build command generates the ignored `main_gen.go` containing the node's RF
-identity and baked `spec.Config`.
+The build command creates a private module under `.bleriot/firmware/sense`,
+generates the node entry point, and calls `sense.Run` with the RF identity and
+baked `spec.Config`.
 
 The upstream TinyGo `py32f003x6` target reserves a 1 KiB system stack. Firmware
 uses `--scheduler none`; sensor acquisition shares the nonblocking node loop so

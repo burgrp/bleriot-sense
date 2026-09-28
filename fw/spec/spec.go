@@ -6,6 +6,7 @@ import (
 
 	"github.com/burgrp/bleriot/lib/shared/conversion"
 	"github.com/burgrp/bleriot/lib/shared/conversion/ntc"
+	"github.com/burgrp/bleriot/lib/shared/firmware"
 	"github.com/burgrp/bleriot/lib/shared/inventory"
 	"github.com/burgrp/bleriot/lib/shared/puya"
 )
@@ -55,6 +56,21 @@ func Type(mode Mode) inventory.DeviceType {
 	deviceType := inventory.DeviceType{
 		Name: "bleriot-sense-" + mode.String(),
 		Chip: Chip,
+		Firmware: firmware.Manifest{
+			Package: "github.com/burgrp/bleriot-sense/fw",
+			TinyGo: firmware.TinyGoProfile{
+				Scheduler:        firmware.SchedulerNone,
+				StackSizeBytes:   1024,
+				GarbageCollector: firmware.GCLeaking,
+				Serial:           firmware.SerialRTT,
+				SizeReport:       firmware.SizeReportHTML,
+				PrintAllocs:      true,
+			},
+			PyOCD: firmware.PyOCDProfile{
+				Reclaim:                  true,
+				ReclaimDelayMilliseconds: 1000,
+			},
+		},
 	}
 
 	switch mode {
