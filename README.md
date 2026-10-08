@@ -2,11 +2,12 @@
 
 BleRiot Sense is a compact single-sensor BleRiot node built around a
 `PY32F003L16S6TU` microcontroller and a PAN2110 long-range 2.4 GHz radio. Its
-sensor input is configured at assembly time for one of three uses:
+sensor input is configured at assembly time for one of four uses:
 
 - A 10 kΩ B3950 NTC thermistor.
 - A pulse-output flow sensor such as the YF-B10.
 - A pressure sensor with a driven 0.5-5 V analog output.
+- An externally powered DS18B20 digital thermometer.
 
 The assembly population and the firmware mode must agree. The hardware does not
 switch sensor modes electronically at runtime.
@@ -21,7 +22,7 @@ switch sensor modes electronically at runtime.
 | [`board/bleriot-sense.kicad_pro`](board/bleriot-sense.kicad_pro) | `PY32F003L16S6TU` hardware |
 | [`fw/`](fw/README.md) | Importable Sense firmware and board-owned build profile |
 | [`fw/cmd/dev/`](fw/cmd/dev/) | Local inventory and BleRiot CLI |
-| [`ANALOG-INPUT.md`](ANALOG-INPUT.md) | Analog input circuit, populations, calculations, protection, and layout |
+| [`ANALOG-INPUT.md`](ANALOG-INPUT.md) | Configurable input circuit, populations, calculations, protection, and layout |
 | [`sub/hw-kicad/`](sub/hw-kicad) | Shared KiCad symbols and footprints, included as a Git submodule |
 
 ## Sensor modes
@@ -31,6 +32,7 @@ switch sensor modes electronically at runtime.
 | NTC | Averaged 12-bit ADC code | Temperature in °C |
 | Flow | Rising-edge pulse count | Frequency in Hz and cumulative pulse count |
 | Pressure | Averaged 12-bit ADC code | Reconstructed sensor-output voltage in V |
+| DS18B20 | Signed Q12.4 scratchpad value | Temperature in °C |
 
 See [`ANALOG-INPUT.md`](ANALOG-INPUT.md) before assembling a board. It defines
 the required values for `AR1`, `AR2`, `AR3`, and `AC1`, including the two
@@ -45,7 +47,8 @@ assuming undocumented sensor calibration constants.
 [`fw`](fw/README.md) targets the `PY32F003L16S6TU` and uses `PA0` for
 the universal sensor input. The NTC path has been verified end to end on
 hardware through the ADC, PAN2110 radio, MCP2210 hub dongle, BleRiot hub,
-conversion layer, and Registry. Flow and pressure support build and have
+conversion layer, and Registry. The DS18B20 path has also been verified end to
+end through its 1-Wire bus and the same radio/Registry path. Flow and pressure support build and have
 host-side conversion coverage but still require mode-specific hardware tests.
 
 The upstream TinyGo `py32f003x6` target provides the required 1 KiB system

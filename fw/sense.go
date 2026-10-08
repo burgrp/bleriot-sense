@@ -14,6 +14,8 @@ import (
 	"github.com/burgrp/bleriot-sense/fw/spec"
 	"github.com/burgrp/bleriot/lib/node"
 	"github.com/burgrp/bleriot/lib/node/pan211x"
+	"github.com/burgrp/tinygo-drivers/onewire"
+	"github.com/burgrp/tinygo-drivers/onewire/ds18b20"
 )
 
 const (
@@ -35,14 +37,23 @@ const (
 	flashStatusClear         = py32.Flash_SR_EOP | py32.Flash_SR_WRPERR | py32.Flash_SR_OPTVERR
 )
 
-var flowPulses atomic.Int32
+var (
+	flowPulses       atomic.Int32
+	oneWireHardware  py32OneWireHardware
+	oneWireBus       = onewire.NewMaster(&oneWireHardware)
+	temperatureProbe = ds18b20.NewSingleDrop(&oneWireBus)
+)
 
 type Device struct {
-	mode           spec.Mode
-	sample         int32
-	pulseSnapshot  int32
-	previousPulses uint32
-	ready          bool
+	mode                      spec.Mode
+	sample                    int32
+	pulseSnapshot             int32
+	previousPulses            uint32
+	ds18b20NextAction         int64
+	ds18b20ConversionStarted  int64
+	ready                     bool
+	ds18b20Configured         bool
+	ds18b20ConversionInFlight bool
 }
 
 // Run starts the Sense firmware with baked provisioning and configuration.
@@ -58,6 +69,8 @@ func Run(provisioning node.Provisioning, config spec.Config) {
 		device.ready = true
 	case spec.ModeFlow:
 		initFlowCounter()
+	case spec.ModeDS18B20:
+		initOneWire()
 	default:
 		halt("unsupported sensor mode")
 	}
@@ -73,6 +86,10 @@ func Run(provisioning node.Provisioning, config spec.Config) {
 		bleNode.Poll()
 
 		now := monotonicNanoseconds()
+		if device.mode == spec.ModeDS18B20 {
+			device.serviceDS18B20(now, intervalNanoseconds)
+			continue
+		}
 		if now >= nextSample {
 			device.acquire(config)
 			nextSample += intervalNanoseconds
@@ -121,6 +138,43 @@ func (device *Device) acquire(config spec.Config) {
 	}
 }
 
+func (device *Device) serviceDS18B20(now, sampleIntervalNanoseconds int64) {
+	if now < device.ds18b20NextAction {
+		return
+	}
+
+	if !device.ds18b20ConversionInFlight {
+		if !device.ds18b20Configured {
+			device.ds18b20Configured = temperatureProbe.Configure12Bit() == ds18b20.StatusOK
+		}
+		if !device.ds18b20Configured || temperatureProbe.StartConversion() != ds18b20.StatusOK {
+			device.ready = false
+			device.ds18b20Configured = false
+			device.ds18b20NextAction = monotonicNanoseconds() + sampleIntervalNanoseconds
+			return
+		}
+
+		device.ds18b20ConversionStarted = monotonicNanoseconds()
+		device.ds18b20NextAction = device.ds18b20ConversionStarted + int64(ds18b20.ConversionWait12Bit)
+		device.ds18b20ConversionInFlight = true
+		return
+	}
+
+	sample, status := temperatureProbe.ReadTemperatureRaw()
+	if status == ds18b20.StatusOK {
+		device.sample = int32(sample)
+		device.ready = true
+	} else {
+		device.ready = false
+		device.ds18b20Configured = false
+	}
+	device.ds18b20ConversionInFlight = false
+	device.ds18b20NextAction = device.ds18b20ConversionStarted + sampleIntervalNanoseconds
+	if current := monotonicNanoseconds(); device.ds18b20NextAction < current {
+		device.ds18b20NextAction = current
+	}
+}
+
 //go:linkname monotonicNanoseconds runtime.nanotime
 func monotonicNanoseconds() int64
 
@@ -133,6 +187,10 @@ func normalizeConfig(config spec.Config) spec.Config {
 	}
 	if config.ADCSamples > maximumADCSamples {
 		config.ADCSamples = maximumADCSamples
+	}
+	minimumDS18B20Interval := uint32(ds18b20.ConversionWait12Bit / time.Millisecond)
+	if config.Mode == spec.ModeDS18B20 && config.SampleIntervalMilliseconds < minimumDS18B20Interval {
+		config.SampleIntervalMilliseconds = minimumDS18B20Interval
 	}
 	return config
 }

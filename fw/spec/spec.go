@@ -17,6 +17,7 @@ const (
 	ModeNTC Mode = iota + 1
 	ModeFlow
 	ModePressure
+	ModeDS18B20
 )
 
 func (mode Mode) String() string {
@@ -27,6 +28,8 @@ func (mode Mode) String() string {
 		return "flow"
 	case ModePressure:
 		return "pressure"
+	case ModeDS18B20:
+		return "ds18b20"
 	default:
 		return fmt.Sprintf("unknown-%d", mode)
 	}
@@ -48,6 +51,8 @@ const (
 	adcReferenceVoltage      = 3.3
 	pressureDividerTopKOhm   = 4.02
 	pressureDividerLowerKOhm = 6.49
+	ds18b20MinimumRaw        = int32(-55 * 16)
+	ds18b20MaximumRaw        = int32(125 * 16)
 )
 
 var Chip = puya.PY32F003x6
@@ -82,7 +87,7 @@ func Type(mode Mode) inventory.DeviceType {
 				Type:       inventory.TypeFloat,
 				ReadOnly:   true,
 				Conversion: ntcTemperatureConversion(),
-				Metadata:   map[string]string{"mode": "ntc", "unit": "degC"},
+				Metadata:   map[string]string{"mode": "ntc", "unit": "°C"},
 			},
 		}
 	case ModeFlow:
@@ -114,6 +119,17 @@ func Type(mode Mode) inventory.DeviceType {
 				ReadOnly:   true,
 				Conversion: readOnlyScale(inputVoltagePerCode),
 				Metadata:   map[string]string{"mode": "pressure", "unit": "V"},
+			},
+		}
+	case ModeDS18B20:
+		deviceType.Registers = []inventory.Register{
+			{
+				Tag:        RegSample,
+				Name:       "temperature",
+				Type:       inventory.TypeFloat,
+				ReadOnly:   true,
+				Conversion: ds18b20TemperatureConversion(),
+				Metadata:   map[string]string{"mode": "ds18b20", "unit": "°C"},
 			},
 		}
 	default:
@@ -149,6 +165,18 @@ func ntcTemperatureConversion() inventory.Conversion {
 		}
 		temperature := value.(float64)
 		return math.Round(temperature*100) / 100, nil
+	}
+	return result
+}
+
+func ds18b20TemperatureConversion() inventory.Conversion {
+	result := readOnlyScale(1.0 / 16)
+	decode := result.Decode
+	result.Decode = func(raw int32) (any, error) {
+		if raw < ds18b20MinimumRaw || raw > ds18b20MaximumRaw {
+			return nil, nil
+		}
+		return decode(raw)
 	}
 	return result
 }

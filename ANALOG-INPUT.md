@@ -1,12 +1,13 @@
-# Universal analog sensor input
+# Universal sensor input
 
 ## Purpose
 
-The board uses one configurable input circuit for three mutually exclusive sensor modes:
+The board uses one configurable input circuit for four mutually exclusive sensor modes:
 
 1. A pressure sensor with a driven 0.5–5 V analog output.
 2. A YF-B10 flow sensor with a pulse output.
 3. An external 10 kΩ, B3950 NTC thermistor.
+4. An externally powered DS18B20 digital thermometer.
 
 The operating mode is selected by component population when the board is assembled. It is not switched electronically at runtime.
 
@@ -29,9 +30,9 @@ The sensor connector should provide:
 
 | Pin | Signal | Description |
 |---:|---|---|
-| 1 | `+5V_SENSOR` | Supply for a pressure or flow sensor |
-| 2 | `INPUT` | Driven sensor output, flow pulse, or NTC terminal |
-| 3 | `GND` | Sensor ground |
+| 1 | `GND` | Sensor ground |
+| 2 | `INPUT` | Driven sensor output, flow pulse, NTC terminal, or DS18B20 DQ |
+| 3 | `+5V_SENSOR` | Supply for a pressure, flow, or DS18B20 sensor |
 
 In NTC mode, the thermistor connects between `INPUT` and ground. The `+5V_SENSOR` pin is unused. `AR1` connects to regulated `+3V3`, making the measurement ratiometric with the MCU ADC supply.
 
@@ -54,8 +55,14 @@ Use low-temperature-coefficient resistors for pressure and temperature measureme
 | Flow, driven 5 V output | DNP | 4.02 kΩ | 6.49 kΩ | DNP | GPIO/timer |
 | Flow, open collector | 10.0 kΩ | 4.02 kΩ | DNP | DNP | GPIO/timer |
 | NTC 10k B3950 | 10.0 kΩ | 4.02 kΩ | DNP | 100 nF | ADC |
+| DS18B20 | 4.7 kΩ | 100 Ω | DNP | DNP | Open-drain GPIO |
 
 The two flow populations are alternatives. Select one only after confirming the electrical output of the exact YF-B10 variant.
+
+The DS18B20 population uses different resistor values from every analog mode.
+Do not fit the default 4.02 kΩ `AR2` or 100 nF `AC1` in this mode.
+The v1.2 board's back-side assembly legend predates DS18B20 support; use this
+table rather than the values printed beside the footprints for a DS18B20 build.
 
 ## Pressure mode
 
@@ -279,6 +286,40 @@ The hub conversion reports the temperature register as null for averaged
 the raw ADC value. These thresholds are well outside the nominal −20…100 °C
 range while leaving margin for ADC and component tolerances.
 
+## DS18B20 mode
+
+### Population and connection
+
+- Populate `AR1` with 4.7 kΩ to `+3V3`.
+- Populate `AR2` with 100 Ω.
+- Do not populate `AR3` or `AC1`.
+- Keep the MCU-side `D1` rail clamp populated.
+- Connect DS18B20 GND to J2 pin 1, DQ to pin 2, and VDD to pin 3 (`+5V_SENSOR`).
+
+The DQ pull-up is 3.3 V even though the sensor is powered from 5 V. Do not use a
+probe or breakout that pulls DQ up to 5 V: `PA0` is not 5 V tolerant. The 100 Ω
+series resistor provides edge damping and limits clamp current without preventing
+the MCU from meeting the DS18B20 low-level requirement.
+
+This assembly supports one externally powered DS18B20. Parasite-powered operation
+is not supported because the board has no switched strong pull-up. The firmware
+checks the DS18B20 power mode and leaves the temperature register null when a
+parasite-powered device is detected.
+
+For a long or highly capacitive cable, 2.2–3.3 kΩ may be required for `AR1`.
+Qualify any alternative with an oscilloscope at the connector; DQ must rise in
+time for the firmware's 12 µs read sample. Do not populate `AC1` as an EMI filter
+on the 1-Wire bus.
+
+### Firmware behavior
+
+The node configures 12-bit resolution without writing the sensor EEPROM, starts
+a conversion, continues polling the radio during the 800 ms conversion window,
+then validates the nine-byte scratchpad CRC. It transports the native signed
+Q12.4 temperature word; the hub converts it to degrees Celsius. Missing devices,
+bad CRCs, stuck-low data, parasite power, and values outside −55…125 °C produce a
+null register until a later conversion succeeds.
+
 ## Input protection
 
 The common four-component network does not by itself provide complete protection. Recommended additions are:
@@ -308,7 +349,7 @@ The circuit is intended for normal 0–5 V signals and transient protection. It 
 - Keep `SENSOR_OUT` away from the RF antenna, crystal, clocks, LED data, and noisy supply-current paths.
 - Avoid sharing the sensor ground-return path with high-current LED, radio, or regulator currents.
 - Provide test points for `INPUT` and `SENSOR_OUT`.
-- Clearly document the pressure, flow, and NTC assembly populations on the schematic and BOM.
+- Clearly document the pressure, flow, NTC, and DS18B20 assembly populations on the schematic and BOM.
 
 ## Firmware summary
 
@@ -317,5 +358,6 @@ The circuit is intended for normal 0–5 V signals and transient protection. It 
 | Pressure | ADC | Average samples and reverse the divider ratio |
 | Flow | GPIO/timer | Count edges or measure pulse period |
 | NTC | ADC | Convert ADC ratio to resistance and then temperature |
+| DS18B20 | Open-drain GPIO | 1-Wire conversion and CRC-checked scratchpad read |
 
-The selected MCU pin must support both ADC operation and a suitable timer/GPIO function if all three populations are to use exactly the same physical input.
+The selected MCU pin must support ADC, interrupt input, and open-drain GPIO operation if all four populations are to use exactly the same physical input.

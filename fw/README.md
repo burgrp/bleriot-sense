@@ -40,6 +40,7 @@ Supported values are:
 | `spec.ModeNTC` | AR1 10 kΩ, AR2 4.02 kΩ, AR3 DNP, AC1 100 nF | `temperature` in °C |
 | `spec.ModeFlow` | Driven: AR1 DNP, AR2 4.02 kΩ, AR3 6.49 kΩ, AC1 DNP; open collector: AR1 10 kΩ, AR2 4.02 kΩ, AR3/AC1 DNP | `frequency` in Hz and cumulative `pulses` |
 | `spec.ModePressure` | AR1 DNP, AR2 4.02 kΩ, AR3 6.49 kΩ, AC1 100 nF | Sensor-output `voltage` in V |
+| `spec.ModeDS18B20` | AR1 4.7 kΩ, AR2 100 Ω, AR3/AC1 DNP | `temperature` in °C |
 
 The mode is inventory-as-code and is baked into the image by `node build`. It
 does not electronically change the assembly population at runtime. Rebuild and
@@ -49,6 +50,16 @@ NTC and pressure calculations run in the hub; the node transmits averaged raw
 12-bit ADC codes. Flow frequency is transmitted in millihertz and converted to
 hertz by the hub. A sensor-specific pressure transfer function or flow K-factor
 can be added to the host conversion once the exact sensor calibration is known.
+
+DS18B20 mode supports one externally powered device. Connect J2 pin 1 to GND,
+pin 2 to DQ, and pin 3 to VDD. DQ is pulled up to 3.3 V; do not connect a 5 V DQ
+pull-up. Parasite power and multiple devices on the bus are not supported. The
+node validates ROM and scratchpad CRCs, transmits signed Q12.4 temperature, and
+continues polling the radio during the sensor's conversion interval.
+
+The protocol implementation comes from `github.com/burgrp/tinygo-drivers/onewire`.
+This board supplies only the PA0 open-drain, TIM3 1 MHz counter, and interrupt
+adapter in `onewire_py32.go`.
 
 The node retains the latest full-resolution sample for scheduled GET responses.
 In flow mode, the pulse interrupt only increments an in-memory counter; each

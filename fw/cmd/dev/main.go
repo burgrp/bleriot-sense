@@ -12,7 +12,7 @@ var far = inventory.Channel{Name: "far", Number: 37, SpreadFactor: config.Spread
 
 func main() {
 	// Mode must match the AR1/AR2/AR3/AC1 assembly population.
-	const sensorMode = spec.ModeNTC
+	const sensorMode = spec.ModeDS18B20
 
 	cli.Start(inventory.Inventory{
 		{
