@@ -1,9 +1,13 @@
+//go:build !tinygo
+
 package spec
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/burgrp/bleriot/lib/shared/firmware"
+	"github.com/burgrp/tinygo-drivers/onewire"
 )
 
 func TestTypesValidate(t *testing.T) {
@@ -115,4 +119,92 @@ func TestDS18B20FaultConversion(t *testing.T) {
 			t.Errorf("Decode(%d) = %v, want nil", raw, value)
 		}
 	}
+}
+
+func TestDS18B20ConfiguredType(t *testing.T) {
+	config := Config{
+		Mode: ModeDS18B20,
+		DS18B20Sensors: []DS18B20Sensor{
+			{ID: validDS18B20ID(1)},
+			{ID: validDS18B20ID(2)},
+			{ID: validDS18B20ID(3)},
+		},
+	}
+	deviceType := TypeForConfig(config)
+	if err := deviceType.Validate(); err != nil {
+		t.Fatal(err)
+	}
+	if len(deviceType.Registers) != 3 {
+		t.Fatalf("register count = %d, want 3", len(deviceType.Registers))
+	}
+	for index, register := range deviceType.Registers {
+		wantName := fmt.Sprintf("temperature.%d", index+1)
+		if register.Tag != DS18B20RegisterTag(index) || register.Name != wantName {
+			t.Errorf("register %d = tag %d name %q, want tag %d name %q", index, register.Tag, register.Name, DS18B20RegisterTag(index), wantName)
+		}
+		if register.Metadata["id"] == "" {
+			t.Errorf("register %d has no sensor ID metadata", index)
+		}
+	}
+}
+
+func TestDS18B20SingleSensorIDOptional(t *testing.T) {
+	for _, sensors := range [][]DS18B20Sensor{nil, {{}}} {
+		config := Config{Mode: ModeDS18B20, DS18B20Sensors: sensors}
+		if err := config.Validate(); err != nil {
+			t.Fatalf("Validate(): %v", err)
+		}
+		if registers := TypeForConfig(config).Registers; len(registers) != 1 || registers[0].Tag != RegDS18B20Base || registers[0].Name != "temperature" {
+			t.Fatalf("registers = %+v, want one tag-%d register named temperature", registers, RegDS18B20Base)
+		}
+	}
+}
+
+func TestDS18B20ConfigValidation(t *testing.T) {
+	valid := validDS18B20ID(1)
+	badCRC := valid
+	badCRC[7] ^= 1
+	wrongFamily := valid
+	wrongFamily[0] = 0x10
+	wrongFamily[7] = onewire.CRC8(wrongFamily[:7])
+
+	tests := []struct {
+		name   string
+		config Config
+	}{
+		{name: "too many", config: Config{Mode: ModeDS18B20, DS18B20Sensors: make([]DS18B20Sensor, MaxDS18B20Sensors+1)}},
+		{name: "missing multidrop ID", config: Config{Mode: ModeDS18B20, DS18B20Sensors: []DS18B20Sensor{{ID: valid}, {}}}},
+		{name: "bad CRC", config: Config{Mode: ModeDS18B20, DS18B20Sensors: []DS18B20Sensor{{ID: badCRC}}}},
+		{name: "wrong family", config: Config{Mode: ModeDS18B20, DS18B20Sensors: []DS18B20Sensor{{ID: wrongFamily}}}},
+		{name: "duplicate", config: Config{Mode: ModeDS18B20, DS18B20Sensors: []DS18B20Sensor{{ID: valid}, {ID: valid}}}},
+		{name: "wrong mode", config: Config{Mode: ModeNTC, DS18B20Sensors: []DS18B20Sensor{{ID: valid}}}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			if err := test.config.Validate(); err == nil {
+				t.Fatal("Validate() succeeded, want error")
+			}
+		})
+	}
+}
+
+func TestDS18B20RegisterTags(t *testing.T) {
+	seen := map[uint16]bool{RegSample: true, RegPulseCount: true}
+	for index := range MaxDS18B20Sensors {
+		tag := DS18B20RegisterTag(index)
+		want := RegDS18B20Base + uint16(index)
+		if tag != want {
+			t.Errorf("DS18B20RegisterTag(%d) = %d, want %d", index, tag, want)
+		}
+		if seen[tag] {
+			t.Fatalf("duplicate register tag %d", tag)
+		}
+		seen[tag] = true
+	}
+}
+
+func validDS18B20ID(serial byte) [8]byte {
+	id := [8]byte{0x28, serial, 2, 3, 4, 5, 6}
+	id[7] = onewire.CRC8(id[:7])
+	return id
 }

@@ -105,6 +105,13 @@ $$
 
 The divider provides headroom for a nominal 5 V signal but does not make arbitrary overvoltage safe.
 
+### Fault detection
+
+`AR3` pulls `SENSOR_OUT` near ground when the pressure sensor or cable is
+disconnected. The node replies with null for averaged ADC codes at or below 64
+or at or above 4031. These thresholds are outside the documented 0.5–5.25 V
+input range: its approximate codes are 383–4023.
+
 ### Filtering
 
 For a low-impedance sensor output, the resistance driving `AC1` is approximately:
@@ -183,6 +190,12 @@ Before choosing the production population, verify the exact sensor's:
 An optional 100 pF–1 nF capacitor footprint can be added for high-frequency EMI suppression. Its effect on pulse shape and maximum measurable frequency must be verified before population.
 
 Firmware calculates flow by counting pulses in a fixed interval or measuring the time between edges. Use the calibration constant for the exact sensor, preferably verified by system calibration.
+
+A disconnected flow sensor cannot be distinguished from a connected sensor at
+zero flow using this single pulse wire: both produce no edges and the same idle
+level for the selected population. Firmware therefore preserves `0 Hz` when no
+pulses arrive. Reliable disconnect reporting requires a separate presence
+signal, a sensor heartbeat, or supply-current sensing.
 
 ## NTC mode
 
@@ -281,10 +294,10 @@ Firmware should treat readings near either ADC rail as possible faults:
 - Near 0 V: shorted thermistor/cable or temperature above the intended range.
 - Near 3.3 V: open thermistor/cable or temperature below the intended range.
 
-The hub conversion reports the temperature register as null for averaged
-12-bit ADC codes at or below 64 and at or above 4031. The node still reports
-the raw ADC value. These thresholds are well outside the nominal −20…100 °C
-range while leaving margin for ADC and component tolerances.
+The node replies with null for averaged 12-bit ADC codes at or below 64 and at
+or above 4031. These thresholds are well outside the nominal −20…100 °C range
+while leaving margin for ADC and component tolerances. The hub conversion keeps
+the same checks as a defensive fallback.
 
 ## DS18B20 mode
 
@@ -301,24 +314,26 @@ probe or breakout that pulls DQ up to 5 V: `PA0` is not 5 V tolerant. The 100 Ω
 series resistor provides edge damping and limits clamp current without preventing
 the MCU from meeting the DS18B20 low-level requirement.
 
-This assembly supports one externally powered DS18B20. Parasite-powered operation
-is not supported because the board has no switched strong pull-up. The firmware
-checks the DS18B20 power mode and leaves the temperature register null when a
-parasite-powered device is detected.
+Firmware supports up to 20 externally powered DS18B20s connected in parallel.
+Parasite-powered operation is not supported because the board has no switched
+strong pull-up. Firmware checks the bus power mode and leaves temperature
+registers null when a parasite-powered device is detected.
 
 For a long or highly capacitive cable, 2.2–3.3 kΩ may be required for `AR1`.
-Qualify any alternative with an oscilloscope at the connector; DQ must rise in
-time for the firmware's 12 µs read sample. Do not populate `AC1` as an EMI filter
-on the 1-Wire bus.
+Qualify the actual sensor count, cable topology, and any alternative pull-up with
+an oscilloscope at the connector; DQ must rise in time for the firmware's 10 µs
+read sample. Do not populate `AC1` as an EMI filter on the 1-Wire bus.
 
 ### Firmware behavior
 
-The node configures 12-bit resolution without writing the sensor EEPROM, starts
-a conversion, continues polling the radio during the 800 ms conversion window,
-then validates the nine-byte scratchpad CRC. It transports the native signed
-Q12.4 temperature word; the hub converts it to degrees Celsius. Missing devices,
-bad CRCs, stuck-low data, parasite power, and values outside −55…125 °C produce a
-null register until a later conversion succeeds.
+At boot the node enumerates the 1-Wire bus and prints every DS18B20 ID over RTT.
+It configures each selected sensor for 12-bit resolution without writing EEPROM,
+broadcasts one conversion, and polls the radio during the 800 ms conversion.
+Addressed scratchpads are then read one per main-loop pass, with another radio
+poll between sensors. It transports native signed Q12.4 words; the hub converts
+them to degrees Celsius. A missing device, bad CRC, or out-of-range value nulls
+only that sensor. A stuck-low bus or parasite-power fault nulls the whole bus
+until a later cycle succeeds.
 
 ## Input protection
 

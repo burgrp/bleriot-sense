@@ -32,7 +32,7 @@ switch sensor modes electronically at runtime.
 | NTC | Averaged 12-bit ADC code | Temperature in °C |
 | Flow | Rising-edge pulse count | Frequency in Hz and cumulative pulse count |
 | Pressure | Averaged 12-bit ADC code | Reconstructed sensor-output voltage in V |
-| DS18B20 | Signed Q12.4 scratchpad value | Temperature in °C |
+| DS18B20 | Up to 20 signed Q12.4 scratchpad values | Temperature registers in °C |
 
 See [`ANALOG-INPUT.md`](ANALOG-INPUT.md) before assembling a board. It defines
 the required values for `AR1`, `AR2`, `AR3`, and `AC1`, including the two
@@ -47,9 +47,14 @@ assuming undocumented sensor calibration constants.
 [`fw`](fw/README.md) targets the `PY32F003L16S6TU` and uses `PA0` for
 the universal sensor input. The NTC path has been verified end to end on
 hardware through the ADC, PAN2110 radio, MCP2210 hub dongle, BleRiot hub,
-conversion layer, and Registry. The DS18B20 path has also been verified end to
-end through its 1-Wire bus and the same radio/Registry path. Flow and pressure support build and have
+conversion layer, and Registry. The single-sensor DS18B20 path has also been
+verified end to end through its 1-Wire bus and the same radio/Registry path;
+multidrop behavior still requires hardware validation. Flow and pressure support build and have
 host-side conversion coverage but still require mode-specific hardware tests.
+
+DS18B20 firmware prints discovered ROM IDs over RTT at boot. A single sensor
+needs no configured ID; multidrop inventories map each temperature register to
+an explicit ID. See the firmware README for configuration and timing details.
 
 The upstream TinyGo `py32f003x6` target provides the required 1 KiB system
 stack. The firmware runs without a task scheduler. See the firmware README for

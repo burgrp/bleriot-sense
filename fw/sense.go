@@ -38,22 +38,40 @@ const (
 )
 
 var (
-	flowPulses       atomic.Int32
-	oneWireHardware  py32OneWireHardware
-	oneWireBus       = onewire.NewMaster(&oneWireHardware)
-	temperatureProbe = ds18b20.NewSingleDrop(&oneWireBus)
+	flowPulses      atomic.Int32
+	oneWireHardware py32OneWireHardware
+	oneWireBus      = onewire.NewMaster(&oneWireHardware)
+	temperatureBus  = ds18b20.NewNetwork(&oneWireBus)
+)
+
+type ds18b20Phase uint8
+
+const (
+	ds18b20Configure ds18b20Phase = iota
+	ds18b20StartConversion
+	ds18b20WaitConversion
+	ds18b20ReadSensors
 )
 
 type Device struct {
-	mode                      spec.Mode
-	sample                    int32
-	pulseSnapshot             int32
-	previousPulses            uint32
-	ds18b20NextAction         int64
-	ds18b20ConversionStarted  int64
-	ready                     bool
-	ds18b20Configured         bool
-	ds18b20ConversionInFlight bool
+	mode                     spec.Mode
+	sample                   int32
+	pulseSnapshot            int32
+	previousPulses           uint32
+	ds18b20Samples           [spec.MaxDS18B20Sensors]int32
+	ds18b20IDs               [spec.MaxDS18B20Sensors]ds18b20.ROM
+	ds18b20NextAction        int64
+	ds18b20ConversionStarted int64
+	ds18b20Ready             uint32
+	ds18b20Configured        uint32
+	ds18b20Searcher          onewire.Searcher
+	ds18b20DiscoveredFirst   ds18b20.ROM
+	ds18b20DiscoveredCount   uint8
+	ds18b20Count             uint8
+	ds18b20Index             uint8
+	ds18b20Phase             ds18b20Phase
+	ds18b20Ambiguous         bool
+	ready                    bool
 }
 
 // Run starts the Sense firmware with baked provisioning and configuration.
@@ -66,11 +84,12 @@ func Run(provisioning node.Provisioning, config spec.Config) {
 	case spec.ModeNTC, spec.ModePressure:
 		initADC()
 		device.sample = readAverageADC(int(config.ADCSamples))
-		device.ready = true
+		device.ready = analogSampleValid(config.Mode, device.sample)
 	case spec.ModeFlow:
 		initFlowCounter()
 	case spec.ModeDS18B20:
 		initOneWire()
+		device.initDS18B20(config)
 	default:
 		halt("unsupported sensor mode")
 	}
@@ -101,6 +120,18 @@ func Run(provisioning node.Provisioning, config spec.Config) {
 }
 
 func (device *Device) Read(tag uint16) (value int32, null bool) {
+	if device.mode == spec.ModeDS18B20 {
+		for index := 0; index < int(device.ds18b20Count); index++ {
+			if tag != spec.DS18B20RegisterTag(index) {
+				continue
+			}
+			if device.ds18b20Ready&(uint32(1)<<index) == 0 {
+				return 0, true
+			}
+			return device.ds18b20Samples[index], false
+		}
+		return 0, true
+	}
 	if !device.ready {
 		return 0, true
 	}
@@ -123,6 +154,7 @@ func (device *Device) acquire(config spec.Config) {
 	switch config.Mode {
 	case spec.ModeNTC, spec.ModePressure:
 		device.sample = readAverageADC(int(config.ADCSamples))
+		device.ready = analogSampleValid(config.Mode, device.sample)
 	case spec.ModeFlow:
 		current := uint32(flowPulses.Load())
 		delta := current - device.previousPulses
@@ -143,36 +175,212 @@ func (device *Device) serviceDS18B20(now, sampleIntervalNanoseconds int64) {
 		return
 	}
 
-	if !device.ds18b20ConversionInFlight {
-		if !device.ds18b20Configured {
-			device.ds18b20Configured = temperatureProbe.Configure12Bit() == ds18b20.StatusOK
+	switch device.ds18b20Phase {
+	case ds18b20Configure:
+		if device.ds18b20Count == 1 && device.ds18b20IDs[0] == (ds18b20.ROM{}) {
+			device.serviceDS18B20Discovery(sampleIntervalNanoseconds)
+			return
 		}
-		if !device.ds18b20Configured || temperatureProbe.StartConversion() != ds18b20.StatusOK {
-			device.ready = false
-			device.ds18b20Configured = false
-			device.ds18b20NextAction = monotonicNanoseconds() + sampleIntervalNanoseconds
+		if device.ds18b20Index >= device.ds18b20Count {
+			device.ds18b20Index = 0
+			device.ds18b20Phase = ds18b20StartConversion
 			return
 		}
 
+		index := device.ds18b20Index
+		device.ds18b20Index++
+		mask := uint32(1) << index
+		if device.ds18b20Configured&mask != 0 {
+			return
+		}
+		if device.ds18b20IDs[index] == (ds18b20.ROM{}) {
+			device.ds18b20Ready &^= mask
+			return
+		}
+		status := temperatureBus.Configure12Bit(device.ds18b20IDs[index])
+		if status == ds18b20.StatusOK {
+			device.ds18b20Configured |= mask
+		} else if status == ds18b20.StatusNoPresence || status == ds18b20.StatusBusStuckLow {
+			device.ds18b20Ready = 0
+			device.ds18b20Configured = 0
+			device.finishDS18B20Cycle(sampleIntervalNanoseconds)
+		} else {
+			device.ds18b20Ready &^= mask
+		}
+		return
+
+	case ds18b20StartConversion:
+		if device.ds18b20Configured == 0 {
+			device.finishDS18B20Cycle(sampleIntervalNanoseconds)
+			return
+		}
+		if temperatureBus.RequireExternalPowerAll() != ds18b20.StatusOK ||
+			temperatureBus.StartConversionAll() != ds18b20.StatusOK {
+			device.ds18b20Ready = 0
+			device.ds18b20Configured = 0
+			device.finishDS18B20Cycle(sampleIntervalNanoseconds)
+			return
+		}
 		device.ds18b20ConversionStarted = monotonicNanoseconds()
 		device.ds18b20NextAction = device.ds18b20ConversionStarted + int64(ds18b20.ConversionWait12Bit)
-		device.ds18b20ConversionInFlight = true
+		device.ds18b20Phase = ds18b20WaitConversion
+		return
+
+	case ds18b20WaitConversion:
+		device.ds18b20Index = 0
+		device.ds18b20Phase = ds18b20ReadSensors
+		return
+
+	case ds18b20ReadSensors:
+		if device.ds18b20Index >= device.ds18b20Count {
+			device.finishDS18B20Cycle(sampleIntervalNanoseconds)
+			return
+		}
+
+		index := device.ds18b20Index
+		device.ds18b20Index++
+		mask := uint32(1) << index
+		if device.ds18b20Configured&mask == 0 {
+			device.ds18b20Ready &^= mask
+			return
+		}
+		sample, status := temperatureBus.ReadTemperatureRaw(device.ds18b20IDs[index])
+		if status == ds18b20.StatusOK {
+			device.ds18b20Samples[index] = int32(sample)
+			device.ds18b20Ready |= mask
+		} else if status == ds18b20.StatusNoPresence || status == ds18b20.StatusBusStuckLow {
+			device.ds18b20Ready = 0
+			device.ds18b20Configured = 0
+			device.finishDS18B20Cycle(sampleIntervalNanoseconds)
+		} else {
+			device.ds18b20Ready &^= mask
+			device.ds18b20Configured &^= mask
+		}
+	}
+}
+
+func (device *Device) finishDS18B20Cycle(sampleIntervalNanoseconds int64) {
+	current := monotonicNanoseconds()
+	if device.ds18b20ConversionStarted == 0 {
+		device.ds18b20NextAction = current + sampleIntervalNanoseconds
+	} else {
+		device.ds18b20NextAction = device.ds18b20ConversionStarted + sampleIntervalNanoseconds
+	}
+	if device.ds18b20NextAction < current {
+		device.ds18b20NextAction = current
+	}
+	device.ds18b20ConversionStarted = 0
+	device.ds18b20Index = 0
+	device.ds18b20Phase = ds18b20Configure
+}
+
+func (device *Device) initDS18B20(config spec.Config) {
+	count := len(config.DS18B20Sensors)
+	if count == 0 {
+		count = 1
+	}
+	if count > spec.MaxDS18B20Sensors {
+		count = spec.MaxDS18B20Sensors
+	}
+	device.ds18b20Count = uint8(count)
+	for index := 0; index < len(config.DS18B20Sensors) && index < count; index++ {
+		device.ds18b20IDs[index] = ds18b20.ROM(config.DS18B20Sensors[index].ID)
+	}
+
+	first, discovered, complete := discoverDS18B20s()
+	if count == 1 && device.ds18b20IDs[0] == (ds18b20.ROM{}) {
+		if complete && discovered == 1 {
+			device.ds18b20IDs[0] = first
+		} else if complete && discovered > 1 {
+			println("Multiple DS18B20 sensors found; configure an ID for the temperature register")
+			device.ds18b20Ambiguous = true
+		}
+	}
+}
+
+func (device *Device) serviceDS18B20Discovery(sampleIntervalNanoseconds int64) {
+	if device.ds18b20Ambiguous {
+		device.finishDS18B20Cycle(sampleIntervalNanoseconds)
 		return
 	}
 
-	sample, status := temperatureProbe.ReadTemperatureRaw()
-	if status == ds18b20.StatusOK {
-		device.sample = int32(sample)
-		device.ready = true
-	} else {
-		device.ready = false
-		device.ds18b20Configured = false
+	rom, status := device.ds18b20Searcher.Next(&oneWireBus)
+	switch status {
+	case onewire.SearchFound:
+		if rom[0] != ds18b20.FamilyCode {
+			return
+		}
+		id := ds18b20.ROM(rom)
+		printDS18B20ID(id)
+		if device.ds18b20DiscoveredCount == 0 {
+			device.ds18b20DiscoveredFirst = id
+		}
+		if device.ds18b20DiscoveredCount < 255 {
+			device.ds18b20DiscoveredCount++
+		}
+		return
+
+	case onewire.SearchDone:
+		if device.ds18b20DiscoveredCount == 1 {
+			device.ds18b20IDs[0] = device.ds18b20DiscoveredFirst
+			device.ds18b20Searcher.Reset()
+			device.ds18b20DiscoveredCount = 0
+			device.ds18b20DiscoveredFirst = ds18b20.ROM{}
+			return
+		}
+		if device.ds18b20DiscoveredCount > 1 {
+			println("Multiple DS18B20 sensors found; configure an ID for the temperature register")
+			device.ds18b20Ambiguous = true
+		}
+	default:
+		println("1-Wire discovery failed with status", uint8(status))
 	}
-	device.ds18b20ConversionInFlight = false
-	device.ds18b20NextAction = device.ds18b20ConversionStarted + sampleIntervalNanoseconds
-	if current := monotonicNanoseconds(); device.ds18b20NextAction < current {
-		device.ds18b20NextAction = current
+
+	device.ds18b20Searcher.Reset()
+	device.ds18b20DiscoveredCount = 0
+	device.ds18b20DiscoveredFirst = ds18b20.ROM{}
+	device.ds18b20Ready = 0
+	device.finishDS18B20Cycle(sampleIntervalNanoseconds)
+}
+
+func discoverDS18B20s() (first ds18b20.ROM, count uint8, complete bool) {
+	var searcher onewire.Searcher
+	for {
+		rom, status := searcher.Next(&oneWireBus)
+		switch status {
+		case onewire.SearchFound:
+			if rom[0] != ds18b20.FamilyCode {
+				continue
+			}
+			id := ds18b20.ROM(rom)
+			printDS18B20ID(id)
+			if count == 0 {
+				first = id
+			}
+			if count < 255 {
+				count++
+			}
+		case onewire.SearchDone:
+			if count == 0 {
+				println("No DS18B20 sensors found")
+			}
+			return first, count, true
+		default:
+			println("1-Wire discovery failed with status", uint8(status))
+			return first, count, false
+		}
 	}
+}
+
+func printDS18B20ID(id ds18b20.ROM) {
+	print("DS18B20 ID: [8]byte{")
+	for index, value := range id {
+		if index > 0 {
+			print(", ")
+		}
+		print(value)
+	}
+	println("}")
 }
 
 //go:linkname monotonicNanoseconds runtime.nanotime
