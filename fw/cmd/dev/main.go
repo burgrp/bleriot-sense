@@ -24,6 +24,12 @@ var senseConfig = spec.Config{
 	},
 }
 
+var senseCalibration = spec.Calibration{
+	DS18B20: map[int]float64{
+		3: 1,
+	},
+}
+
 func main() {
 	// Mode must match the AR1/AR2/AR3/AC1 assembly population.
 	cli.Start(inventory.Inventory{
@@ -32,7 +38,7 @@ func main() {
 			Address: [4]byte{0xF7, 0x57, 0x17, 0x52},
 			Key:     [16]byte{0xAD, 0xDD, 0xA8, 0xB4, 0x57, 0x07, 0x23, 0x61, 0x99, 0x20, 0x54, 0xDC, 0x5F, 0x6A, 0x95, 0xCB},
 			Channel: far,
-			Type:    spec.TypeForConfig(senseConfig),
+			Type:    spec.TypeForConfig(senseConfig, senseCalibration),
 			Config:  senseConfig,
 		},
 	})

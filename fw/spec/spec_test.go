@@ -4,6 +4,7 @@ package spec
 
 import (
 	"fmt"
+	"math"
 	"testing"
 
 	"github.com/burgrp/bleriot/lib/shared/firmware"
@@ -108,6 +109,21 @@ func TestDS18B20Conversion(t *testing.T) {
 	}
 }
 
+func TestDS18B20OffsetConversion(t *testing.T) {
+	config := Config{Mode: ModeDS18B20, DS18B20Sensors: []DS18B20Sensor{{ID: validDS18B20ID(1)}}}
+	deviceType := TypeForConfig(config, Calibration{DS18B20: map[int]float64{1: 1}})
+	value, err := deviceType.Registers[0].Conversion.Decode(0x0140)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if temperature := value.(float64); temperature != 21 {
+		t.Fatalf("offset temperature = %v °C, want 21 °C", temperature)
+	}
+	if got := deviceType.Registers[0].Metadata["offsetCelsius"]; got != "1" {
+		t.Fatalf("offset metadata = %q, want 1", got)
+	}
+}
+
 func TestDS18B20FaultConversion(t *testing.T) {
 	decode := Type(ModeDS18B20).Registers[0].Conversion.Decode
 	for _, raw := range []int32{ds18b20MinimumRaw - 1, ds18b20MaximumRaw + 1} {
@@ -130,7 +146,7 @@ func TestDS18B20ConfiguredType(t *testing.T) {
 			{ID: validDS18B20ID(3)},
 		},
 	}
-	deviceType := TypeForConfig(config)
+	deviceType := TypeForConfig(config, Calibration{})
 	if err := deviceType.Validate(); err != nil {
 		t.Fatal(err)
 	}
@@ -154,7 +170,7 @@ func TestDS18B20SingleSensorIDOptional(t *testing.T) {
 		if err := config.Validate(); err != nil {
 			t.Fatalf("Validate(): %v", err)
 		}
-		if registers := TypeForConfig(config).Registers; len(registers) != 1 || registers[0].Tag != RegDS18B20Base || registers[0].Name != "temperature" {
+		if registers := TypeForConfig(config, Calibration{}).Registers; len(registers) != 1 || registers[0].Tag != RegDS18B20Base || registers[0].Name != "temperature" {
 			t.Fatalf("registers = %+v, want one tag-%d register named temperature", registers, RegDS18B20Base)
 		}
 	}
@@ -185,6 +201,29 @@ func TestDS18B20ConfigValidation(t *testing.T) {
 				t.Fatal("Validate() succeeded, want error")
 			}
 		})
+	}
+}
+
+func TestDS18B20CalibrationValidation(t *testing.T) {
+	config := Config{
+		Mode: ModeDS18B20,
+		DS18B20Sensors: []DS18B20Sensor{
+			{ID: validDS18B20ID(1)},
+			{ID: validDS18B20ID(2)},
+		},
+	}
+	for _, calibration := range []Calibration{
+		{DS18B20: map[int]float64{0: 1}},
+		{DS18B20: map[int]float64{3: 1}},
+		{DS18B20: map[int]float64{2: math.NaN()}},
+		{DS18B20: map[int]float64{2: math.Inf(1)}},
+	} {
+		if err := validateCalibration(config, calibration); err == nil {
+			t.Errorf("validateCalibration(%+v) succeeded, want error", calibration)
+		}
+	}
+	if err := validateCalibration(Config{Mode: ModeNTC}, Calibration{DS18B20: map[int]float64{1: 1}}); err == nil {
+		t.Error("NTC calibration validation succeeded, want error")
 	}
 }
 

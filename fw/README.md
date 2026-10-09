@@ -29,7 +29,7 @@ var senseConfig = spec.Config{
 	ADCSamples:                 16,
 }
 
-Type:   spec.TypeForConfig(senseConfig),
+Type:   spec.TypeForConfig(senseConfig, spec.Calibration{}),
 Config: senseConfig,
 ```
 
@@ -76,6 +76,27 @@ var senseConfig = spec.Config{
 	},
 }
 ```
+
+Optional per-register calibration is supplied only when constructing the host
+device type. It is not part of `spec.Config`, is not baked into firmware, and
+does not alter the signed Q12.4 value returned by the node:
+
+```go
+var senseCalibration = spec.Calibration{
+	DS18B20: map[int]float64{
+		3: 1,
+	},
+}
+
+Type:   spec.TypeForConfig(senseConfig, senseCalibration),
+Config: senseConfig,
+```
+
+The hub publishes $raw/16 + OffsetCelsius$. Supply either no calibration entries
+or sparse offsets keyed by one-based DS18B20 sensor index, matching register names
+such as `temperature.3`. Indexes must identify configured registers, offsets must
+be finite, and nonzero offsets are included in Registry metadata as
+`offsetCelsius`.
 
 DS18B20 registers use the dedicated contiguous tag range 256–275. A one-register
 inventory uses `temperature`; a multidrop inventory uses `temperature.1` through

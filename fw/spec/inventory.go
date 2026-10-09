@@ -28,6 +28,14 @@ const (
 
 var Chip = puya.PY32F003x6
 
+// Calibration contains host-only calibration for every supported sensor mode.
+// It is inventory-only and is not baked into node firmware config.
+type Calibration struct {
+	// DS18B20 maps one-based sensor indexes to offsets in degrees Celsius,
+	// matching temperature.1, temperature.2, and so on.
+	DS18B20 map[int]float64
+}
+
 func (mode Mode) String() string {
 	switch mode {
 	case ModeNTC:
@@ -44,13 +52,18 @@ func (mode Mode) String() string {
 }
 
 func Type(mode Mode) inventory.DeviceType {
-	return TypeForConfig(Config{Mode: mode})
+	return TypeForConfig(Config{Mode: mode}, Calibration{})
 }
 
-// TypeForConfig returns the register table selected by config. It panics when
-// config is invalid because inventories must be valid at construction time.
-func TypeForConfig(config Config) inventory.DeviceType {
+// TypeForConfig returns the register table selected by config. Calibration
+// applies only to host-side conversions. It panics when config or calibration
+// is invalid because inventories must be valid at
+// construction time.
+func TypeForConfig(config Config, calibration Calibration) inventory.DeviceType {
 	if err := config.Validate(); err != nil {
+		panic("bleriot-sense: " + err.Error())
+	}
+	if err := validateCalibration(config, calibration); err != nil {
 		panic("bleriot-sense: " + err.Error())
 	}
 	mode := config.Mode
@@ -120,6 +133,7 @@ func TypeForConfig(config Config) inventory.DeviceType {
 		}
 		deviceType.Registers = make([]inventory.Register, count)
 		for index := range count {
+			offset := calibration.DS18B20[index+1]
 			name := "temperature"
 			if count > 1 {
 				name += "." + strconv.Itoa(index+1)
@@ -128,12 +142,15 @@ func TypeForConfig(config Config) inventory.DeviceType {
 			if index < len(config.DS18B20Sensors) && !zeroDS18B20ID(config.DS18B20Sensors[index].ID) {
 				metadata["id"] = fmt.Sprintf("%x", config.DS18B20Sensors[index].ID)
 			}
+			if offset != 0 {
+				metadata["offsetCelsius"] = strconv.FormatFloat(offset, 'f', -1, 64)
+			}
 			deviceType.Registers[index] = inventory.Register{
 				Tag:        DS18B20RegisterTag(index),
 				Name:       name,
 				Type:       inventory.TypeFloat,
 				ReadOnly:   true,
-				Conversion: ds18b20TemperatureConversion(),
+				Conversion: ds18b20TemperatureConversion(offset),
 				Metadata:   metadata,
 			}
 		}
@@ -181,6 +198,28 @@ func zeroDS18B20ID(id [8]byte) bool {
 	return id == [8]byte{}
 }
 
+func validateCalibration(config Config, calibration Calibration) error {
+	if len(calibration.DS18B20) == 0 {
+		return nil
+	}
+	if config.Mode != ModeDS18B20 {
+		return fmt.Errorf("DS18B20 calibration requires DS18B20 mode")
+	}
+	count := len(config.DS18B20Sensors)
+	if count == 0 {
+		count = 1
+	}
+	for index, offset := range calibration.DS18B20 {
+		if index < 1 || index > count {
+			return fmt.Errorf("DS18B20 calibration index %d is outside 1..%d", index, count)
+		}
+		if math.IsNaN(offset) || math.IsInf(offset, 0) {
+			return fmt.Errorf("DS18B20 calibration index %d offset must be finite", index)
+		}
+	}
+	return nil
+}
+
 func readOnlyScale(factor float64) inventory.Conversion {
 	result := conversion.Scale(factor)
 	result.Encode = nil
@@ -211,8 +250,9 @@ func ntcTemperatureConversion() inventory.Conversion {
 	return result
 }
 
-func ds18b20TemperatureConversion() inventory.Conversion {
-	result := readOnlyScale(1.0 / 16)
+func ds18b20TemperatureConversion(offsetCelsius float64) inventory.Conversion {
+	result := conversion.Linear(1.0/16, offsetCelsius)
+	result.Encode = nil
 	decode := result.Decode
 	result.Decode = func(raw int32) (any, error) {
 		if raw < ds18b20MinimumRaw || raw > ds18b20MaximumRaw {
