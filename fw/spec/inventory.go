@@ -58,7 +58,7 @@ func TypeForConfig(config Config) inventory.DeviceType {
 		Name: "bleriot-sense-" + mode.String(),
 		Chip: Chip,
 		Firmware: firmware.Manifest{
-			Package: "github.com/burgrp/bleriot-sense/fw",
+			Package: "github.com/burgrp/bleriot-sense/fw/v2",
 			TinyGo: firmware.TinyGoProfile{
 				Scheduler:        firmware.SchedulerNone,
 				StackSizeBytes:   1024,

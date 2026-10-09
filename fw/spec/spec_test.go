@@ -23,7 +23,7 @@ func TestTypesValidate(t *testing.T) {
 func TestFirmwareProfile(t *testing.T) {
 	for _, mode := range []Mode{ModeNTC, ModeFlow, ModePressure, ModeDS18B20} {
 		profile := Type(mode).Firmware
-		if profile.Package != "github.com/burgrp/bleriot-sense/fw" {
+		if profile.Package != "github.com/burgrp/bleriot-sense/fw/v2" {
 			t.Fatalf("%s firmware package = %q", mode, profile.Package)
 		}
 		if profile.TinyGo.Scheduler != firmware.SchedulerNone || profile.TinyGo.StackSizeBytes != 1024 {

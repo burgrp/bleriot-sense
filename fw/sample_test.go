@@ -3,7 +3,7 @@ package sense
 import (
 	"testing"
 
-	"github.com/burgrp/bleriot-sense/fw/spec"
+	"github.com/burgrp/bleriot-sense/fw/v2/spec"
 )
 
 func TestAnalogSampleValid(t *testing.T) {

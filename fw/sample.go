@@ -1,6 +1,6 @@
 package sense
 
-import "github.com/burgrp/bleriot-sense/fw/spec"
+import "github.com/burgrp/bleriot-sense/fw/v2/spec"
 
 const (
 	analogFaultLowThreshold  = int32(64)

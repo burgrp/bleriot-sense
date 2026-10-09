@@ -1,9 +1,9 @@
-module github.com/burgrp/bleriot-sense/fw
+module github.com/burgrp/bleriot-sense/fw/v2
 
 go 1.25.2
 
 require (
-	github.com/burgrp/bleriot/lib v1.10.3
+	github.com/burgrp/bleriot/lib v1.10.4
 	github.com/burgrp/tinygo-drivers/onewire v1.1.0
 )
 
